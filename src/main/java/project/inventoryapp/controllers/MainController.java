@@ -8,17 +8,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-
-    /*@FXML
-    private Label welcomeText;
-
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-        System.out.println("I was clicked");
-    }
-    */
     public Label buttonLabel;
     public int counter = 1;
     @Override
