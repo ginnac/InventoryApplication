@@ -1,4 +1,4 @@
-package project.inventoryapp.controllers;
+package project.inventoryapp.controllers.MainControllerREMOVE;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
