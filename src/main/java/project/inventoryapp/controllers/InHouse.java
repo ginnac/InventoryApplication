@@ -1,7 +1,7 @@
-package project.inventoryapp.models;
+package project.inventoryapp.controllers;
 
 /**This is the InHouse class. */
-public class InHouse extends Part{
+public class InHouse extends Part {
     private int machineId;
 
     /** InHouse constructor which also sets machineId. */

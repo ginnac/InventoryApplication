@@ -19,7 +19,7 @@
             <TableColumn fx:id="partsMaxColumn" prefWidth="63.0" text="Max" />
         </columns>
       </TableView>
-      <Button fx:id="partsDeleteBtn" layoutX="472.0" layoutY="316.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="partsDeleteBtn" layoutX="472.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickDeletePartBtn" text="Delete" />
       <TableView fx:id="productsTable" layoutX="566.0" layoutY="105.0" prefHeight="197.0" prefWidth="484.0">
          <columns>
             <TableColumn fx:id="productsIdColumn" prefWidth="40.0" text="ID" />
@@ -36,11 +36,11 @@
          </font></Label>
       <TextField fx:id="partsSearchBar" layoutX="373.0" layoutY="68.0" />
       <TextField fx:id="productsSearchBar" layoutX="889.0" layoutY="69.0" />
-      <Button fx:id="partsModifyBtn" layoutX="398.0" layoutY="316.0" mnemonicParsing="false" text="Modify" />
-      <Button fx:id="partsAddBtn" layoutX="345.0" layoutY="316.0" mnemonicParsing="false" text="Add" />
-      <Button fx:id="productsDeleteBtn" layoutX="987.0" layoutY="316.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="productsModifyBtn" layoutX="914.0" layoutY="316.0" mnemonicParsing="false" text="Modify" />
-      <Button fx:id="productsAddBtn" layoutX="861.0" layoutY="316.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="partsModifyBtn" layoutX="398.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickModifyPartBtn" text="Modify" />
+      <Button fx:id="partsAddBtn" layoutX="345.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickAddPartBtn" text="Add" />
+      <Button fx:id="productsDeleteBtn" layoutX="987.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickDeleteProductBtn" text="Delete" />
+      <Button fx:id="productsModifyBtn" layoutX="914.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickModifyProductBtn" text="Modify" />
+      <Button fx:id="productsAddBtn" layoutX="861.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickAddProductBtn" text="Add" />
       <Label layoutX="62.0" layoutY="74.0" text="Parts">
          <font>
             <Font size="14.0" />
@@ -51,6 +51,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="exitBtn" layoutX="1021.0" layoutY="373.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="55.0" text="Exit" />
+      <Button fx:id="exitBtn" layoutX="1021.0" layoutY="373.0" mnemonicParsing="false" onAction="#onClickExitBtn" prefHeight="26.0" prefWidth="55.0" text="Exit" />
    </children>
 </AnchorPane>

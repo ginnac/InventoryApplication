@@ -1,4 +1,4 @@
-package project.inventoryapp.models;
+package project.inventoryapp.controllers;
 
 public class Outsourced extends Part{
 

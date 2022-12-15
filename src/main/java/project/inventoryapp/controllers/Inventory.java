@@ -1,4 +1,4 @@
-package project.inventoryapp.models;
+package project.inventoryapp.controllers;
 //import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

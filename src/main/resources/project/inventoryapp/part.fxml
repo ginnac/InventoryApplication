@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="project.inventoryapp.controllers.PartController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="536.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.PartController">
+   <children>
+      <RadioButton layoutX="166.0" layoutY="71.0" mnemonicParsing="false" onAction="#onSelectInHousePart" text="In-House">
+         <toggleGroup>
+            <ToggleGroup fx:id="addPartsToggles" />
+         </toggleGroup></RadioButton>
+      <RadioButton layoutX="279.0" layoutY="71.0" mnemonicParsing="false" onAction="#onSelectOutsourcedPart" text="Outsourced" toggleGroup="$addPartsToggles" />
+      <Label layoutX="61.0" layoutY="68.0" text="Add Part">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="94.0" layoutY="161.0" prefHeight="17.0" prefWidth="12.0" text="ID" />
+      <Label layoutX="94.0" layoutY="206.0" text="Name" />
+      <TextField editable="false" layoutX="149.0" layoutY="156.0" promptText="Auto generated - disabled" />
+      <TextField layoutX="149.0" layoutY="201.0" />
+      <Label layoutX="94.0" layoutY="251.0" text="Inv" />
+      <TextField layoutX="149.0" layoutY="247.0" />
+      <Label layoutX="94.0" layoutY="296.0" text="Max" />
+      <TextField layoutX="149.0" layoutY="292.0" />
+      <Label layoutX="95.0" layoutY="338.0" text="Min" />
+      <TextField layoutX="149.0" layoutY="334.0" />
+   </children>
 </AnchorPane>

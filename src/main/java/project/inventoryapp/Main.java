@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.inventoryapp.controllers.InHouse;
+import project.inventoryapp.controllers.Inventory;
+import project.inventoryapp.controllers.Outsourced;
 
 import java.io.IOException;
 
@@ -19,6 +22,15 @@ public class Main extends Application {
     }
     /** This is the main method. This is the first method that gets called for this program. */
     public static void main(String[] args) {
+
+        //TEST DATA:
+        InHouse inHousePart = new InHouse(1, "Tire", 100.00, 20, 10, 40, 10);
+        Inventory.addPart(inHousePart);
+
+        Outsourced outsourcedPart = new Outsourced(2, "Break", 250.00, 10, 5, 20, "carpartscom");
+        Inventory.addPart(outsourcedPart);
+
+
         launch();
     }
 
