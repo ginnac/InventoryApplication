@@ -19,4 +19,20 @@ public class MainController implements Initializable {
         System.out.println("I was clicked!!");
         buttonLabel.setText("you clicked " + counter++ + " times");
     }
+
+    //Test Different DIALOG BOXES!!
+    //Error. Usually used in the try-catch block in the catch section to return an error in the UI
+        /*
+        Alert alert = new Alert (Alert.AlertType.ERROR);
+        alert.setTitle("Error dialog");
+        alert.setContentText("You are not allowed to delete - TESTING ERROR");
+        alert.showAndWait();
+        */
+    //Warning. Just to make user aware of something
+       /*
+        Alert alert = new Alert (Alert.AlertType.WARNING);
+        alert.setTitle("Warning dialog");
+        alert.setContentText("Next data to render is confidential- TESTING WARNING");
+        alert.showAndWait();
+       */
 }

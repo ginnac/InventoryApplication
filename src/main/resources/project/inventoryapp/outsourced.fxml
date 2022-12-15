@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="590.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.OutsourcedController">
+<AnchorPane prefHeight="612.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.OutsourcedController">
 <children>
-    <RadioButton layoutX="166.0" layoutY="71.0" mnemonicParsing="false" text="In-House">
+    <RadioButton layoutX="166.0" layoutY="71.0" mnemonicParsing="false" onAction="#onSelectedInHouseToggle" text="In-House">
         <toggleGroup>
             <ToggleGroup fx:id="addPartsToggles" />
         </toggleGroup></RadioButton>
@@ -22,13 +22,16 @@
     <TextField layoutX="201.0" layoutY="202.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="94.0" layoutY="251.0" text="Inv" />
     <TextField layoutX="202.0" layoutY="247.0" prefHeight="26.0" prefWidth="165.0" />
-    <Label layoutX="94.0" layoutY="296.0" text="Max" />
+    <Label layoutX="94.0" layoutY="296.0" text="Price/Cost" />
     <TextField layoutX="202.0" layoutY="292.0" prefHeight="26.0" prefWidth="165.0" />
-    <Label layoutX="95.0" layoutY="338.0" text="Min" />
+    <Label layoutX="95.0" layoutY="338.0" text="Max" />
     <TextField layoutX="202.0" layoutY="334.0" prefHeight="26.0" prefWidth="165.0" />
-    <Label layoutX="94.0" layoutY="383.0" text="Company Name" />
+    <Label layoutX="94.0" layoutY="383.0" text="Min" />
     <TextField layoutX="203.0" layoutY="379.0" prefHeight="26.0" prefWidth="165.0" />
-    <Button layoutX="300.0" layoutY="448.0" mnemonicParsing="false" text="Save" />
-    <Button layoutX="367.0" layoutY="448.0" mnemonicParsing="false" text="Cancel" />
+    <Label layoutX="94.0" layoutY="428.0" text="Company Name" />
+    <TextField layoutX="203.0" layoutY="422.0" prefHeight="26.0" prefWidth="165.0" />
+    <Button layoutX="300.0" layoutY="490.0" mnemonicParsing="false" text="Save" />
+    <Button layoutX="367.0" layoutY="490.0" mnemonicParsing="false" text="Cancel" />
+
 </children>
 </AnchorPane>

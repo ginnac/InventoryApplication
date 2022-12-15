@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InventoryController  implements Initializable{
@@ -38,19 +39,19 @@ public class InventoryController  implements Initializable{
     @FXML
     public Button partsDeleteBtn;
     @FXML
-    public TableView productsTable;
+    public TableView <Product> productsTable;
     @FXML
-    public TableColumn productsIdColumn;
+    public TableColumn <Product, Integer> productsIdColumn;
     @FXML
-    public TableColumn productsNameColumn;
+    public TableColumn <Product, String> productsNameColumn;
     @FXML
-    public TableColumn productsPriceColumn;
+    public TableColumn <Product, Double> productsPriceColumn;
     @FXML
-    public TableColumn productStockColumn;
+    public TableColumn <Product, Integer> productStockColumn;
     @FXML
-    public TableColumn productMinColumn;
+    public TableColumn <Product, Integer>  productMinColumn;
     @FXML
-    public TableColumn productMaxColumn;
+    public TableColumn <Product, Integer> productMaxColumn;
     @FXML
     public TextField partsSearchBar;
     @FXML
@@ -71,46 +72,79 @@ public class InventoryController  implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-
         System.out.println("I was initialized");
 
         // 3 Test data items below -  FIX ME AS NEEDED:
-
         partsTable.setItems(Inventory.getAllParts());
+        populateTable(partsIdColumn, partsNameColumn, partsPriceColumn, partsStockColumn, partsMinColumn, partsMaxColumn);
 
-        partsIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partsNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partsPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        partsStockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        partsMinColumn.setCellValueFactory(new PropertyValueFactory<>("min"));
-        partsMaxColumn.setCellValueFactory(new PropertyValueFactory<>("max"));
-        //Test - FIX ME!!
-        System.out.println(Inventory.getAllParts());
+        productsTable.setItems(Inventory.getAllProducts());
+        populateTable(productsIdColumn, productsNameColumn, productsPriceColumn, productStockColumn, productMinColumn, productMaxColumn);
+
 
     }
 
-    /** The on click method belows triggers the add parts screen in the App's inventory page. */
-    public void onClickAddPartBtn(ActionEvent actionEvent) {
+    public void populateTable(TableColumn<?, Integer> id, TableColumn<?, String> name, TableColumn<?, Double> price, TableColumn<?, Integer> stock, TableColumn<?, Integer> min, TableColumn<?, Integer> max){
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        min.setCellValueFactory(new PropertyValueFactory<>("min"));
+        max.setCellValueFactory(new PropertyValueFactory<>("max"));
+    }
 
-       // System.out.println("Add part button was clicked");
+    /** The on click method belows triggers the add parts screen in the App's inventory page. */
+
+    public void pageLoader(ActionEvent actionEvent, String path, String elementType){
+
         /** Casting event source and determining where event source comes from. */
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        if (elementType == "radioButton"){
+            stage = (Stage)((RadioButton)actionEvent.getSource()).getScene().getWindow();
+        }
+        else{
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        }
 
         /** Then we can reference the proper fxml document. */
         try {
-            scene = FXMLLoader.load(getClass().getResource("/project/inventoryapp/part.fxml"));
+            scene = FXMLLoader.load(getClass().getResource(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+
+    public void onClickAddPartBtn(ActionEvent actionEvent) {
+
+       pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
 
     }
 
     public void onClickDeletePartBtn(ActionEvent actionEvent) {
         System.out.println("Delete part button was clicked");
+
+        Alert alert = new Alert (Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected part item?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            System.out.println("Ok was clicked");
+
+            //FIX ME!!!! - Change this so it can take any id number
+            if(Inventory.lookUpPart(1) != null){
+                Inventory.deletePart(Inventory.lookUpPart(1) );
+            }
+            else{
+                System.out.println("Part not found");
+            }
+
+            pageLoader(actionEvent,"/project/inventoryapp/inventory.fxml", "button");
+
+        }
+        else{
+            System.out.println("Cancelled was clicked");
+            pageLoader(actionEvent,"/project/inventoryapp/inventory.fxml", "button");
+        }
     }
 
     public void onClickModifyPartBtn(ActionEvent actionEvent) {

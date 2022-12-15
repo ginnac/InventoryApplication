@@ -34,8 +34,8 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <TextField fx:id="partsSearchBar" layoutX="373.0" layoutY="68.0" />
-      <TextField fx:id="productsSearchBar" layoutX="889.0" layoutY="69.0" />
+      <TextField fx:id="partsSearchBar" layoutX="373.0" layoutY="68.0" promptText="Search by Part ID or Name" />
+      <TextField fx:id="productsSearchBar" layoutX="889.0" layoutY="69.0" promptText="Search by Product ID or Name" />
       <Button fx:id="partsModifyBtn" layoutX="398.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickModifyPartBtn" text="Modify" />
       <Button fx:id="partsAddBtn" layoutX="345.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickAddPartBtn" text="Add" />
       <Button fx:id="productsDeleteBtn" layoutX="987.0" layoutY="316.0" mnemonicParsing="false" onAction="#onClickDeleteProductBtn" text="Delete" />

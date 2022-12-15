@@ -16,7 +16,7 @@ public class Inventory{
         return allParts;
     }
 
-    public ObservableList<Product> getAllProducts(){
+    public static ObservableList<Product> getAllProducts(){
         //pull in allProducts array
         return allProducts;
     }
@@ -31,9 +31,19 @@ public class Inventory{
         allProducts.add(product);
     }
 
-    public Part lookUpPart(int PartId){
+    public static Part lookUpPart(int PartId){
         //code to find a part by using partId
-         return null;
+      // Part valueToReturn;
+        for(int i = 0; i<allParts.size(); ++i){
+            if(allParts.get(i).getId()==PartId){
+              return allParts.get(i);
+            }
+            else{
+                return null;
+            }
+
+        }
+        return null;
     }
 
     public Product lookUpProduct(int ProductId){
@@ -51,20 +61,20 @@ public class Inventory{
         return null;
     }
 
-    public void updatePart(int index, Part part){
+    public void updatePart(int index, Part selectedPart){
         //update part information
     }
 
-    public void updateProduct(int index, Product product){
+    public void updateProduct(int index, Product newProduct){
         //update product information
     }
 
-    public boolean deletePart(Part part){
+    public static boolean deletePart(Part selectedPart){
         //delete part from allParts list
-        return false;
+        return allParts.remove(selectedPart);
     }
 
-    public boolean deleteProduct(Product product){
+    public boolean deleteProduct(Product selectedProduct){
         //delete product from allProducts list
         return false;
     }
