@@ -68,6 +68,23 @@ public class InventoryController  implements Initializable{
     @FXML
     public Button productsAddBtn;
 
+    //Values to conditionally transfer to other pages
+    private static String  pageTitle;
+    public static String getPageTitle() {
+        return pageTitle;
+    }
+
+    private static Part selectedPart;
+    public static Part getSelectedPart() {
+        return selectedPart;
+    }
+
+    private static String conditionalField;
+    public static String getConditionalField() {
+        return conditionalField;
+    }
+
+
     //public int idColumn;
     /** Initializable method loads up as soon as the associated page loads up. */
     @Override
@@ -117,9 +134,11 @@ public class InventoryController  implements Initializable{
         stage.show();
     }
 
+
     /** Method to add parts to parts list*/
     public void onClickAddPartBtn(ActionEvent actionEvent) {
-       pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
+        pageTitle = "Add Part";
+        pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
 
     }
 
@@ -148,8 +167,37 @@ public class InventoryController  implements Initializable{
         }
     }
 
+
     public void onClickModifyPartBtn(ActionEvent actionEvent) {
+
         System.out.println("Modify part button was clicked");
+        pageTitle = "Modify Part";
+
+        //grab selected part
+        Part part = partsTable.getSelectionModel().getSelectedItem();
+
+        if (part == null){
+            return;
+        }
+        else{
+            //get selected ID
+            System.out.println(part.getId());
+        }
+
+        //Store object as static value
+        selectedPart = part;
+
+
+        //load proper page based on instance type
+        if(part instanceof InHouse){
+            conditionalField = String.valueOf(((InHouse) part).getMachineId());
+            pageLoader(actionEvent, "/project/inventoryapp/inhouse.fxml", "button");
+        }
+        else{
+            conditionalField = ((Outsourced)part).getCompanyName();
+            pageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml", "button");
+        }
+
     }
 
     public void onClickModifyProductBtn(ActionEvent actionEvent) {
@@ -248,4 +296,5 @@ public class InventoryController  implements Initializable{
         resultsList.isEmpty();
 
     }
+
 }

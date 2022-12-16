@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,18 +23,37 @@ public class InHouseController implements Initializable {
     public TextField maxBox;
     public TextField minBox;
     public TextField machineIdBox;
+    public Label partScreenTitle;
 
     private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /** getting index to use for add part*/
-       index = Inventory.getAllParts().size() + 1;
-       idBox.setText(toString(index));
+        //get Title
+        if(InventoryController.getPageTitle() == "Modify Part") {
+            partScreenTitle.setText(InventoryController.getPageTitle());
 
+            //load part data in modify screen:
+            idBox.setText(toString(InventoryController.getSelectedPart().getId()));
+            nameBox.setText(InventoryController.getSelectedPart().getName());
+            invBox.setText(toString(InventoryController.getSelectedPart().getStock()));
+            priceBox.setText(toString(InventoryController.getSelectedPart().getPrice()));
+            minBox.setText(toString(InventoryController.getSelectedPart().getMin()));
+            maxBox.setText(toString(InventoryController.getSelectedPart().getMax()));
+            machineIdBox.setText(InventoryController.getConditionalField());
+        }
+        else {
+            //pull in index in add screen:
+            index = Inventory.getAllParts().size() + 1;
+            idBox.setText(toString(index));
+        }
     }
 
     private String toString(int index) {
+        return "" + index + "";
+    }
+    private String toString(double index) {
         return "" + index + "";
     }
 
