@@ -67,9 +67,17 @@ public class Inventory{
         return partMatches;
     }
 
-    public ObservableList<Product> lookUpProduct(String productName){
+    public static ObservableList<Product> lookUpProduct(String productName){
         //code to return product using product name
-        return null;
+        ObservableList<Product> productMatches = FXCollections.observableArrayList();
+
+        for(Product product: allProducts){
+            if(product.getName().toLowerCase().contains(productName.toLowerCase())){
+                productMatches.add(product);
+            }
+        }
+
+        return productMatches;
     }
 
     public void updatePart(int index, Part selectedPart){

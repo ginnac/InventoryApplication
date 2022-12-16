@@ -18,20 +18,20 @@
     </Label>
     <Label layoutX="94.0" layoutY="161.0" prefHeight="17.0" prefWidth="12.0" text="ID" />
     <Label layoutX="94.0" layoutY="206.0" text="Name" />
-    <TextField editable="false" layoutX="201.0" layoutY="157.0" prefHeight="26.0" prefWidth="165.0" promptText="Auto generated - disabled" />
-    <TextField layoutX="201.0" layoutY="202.0" prefHeight="26.0" prefWidth="165.0" />
+    <TextField fx:id="outsourcedIdBox" editable="false" layoutX="201.0" layoutY="157.0" prefHeight="26.0" prefWidth="165.0" promptText="Auto generated - disabled" />
+    <TextField fx:id="outsourcedNameBox" layoutX="201.0" layoutY="202.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="94.0" layoutY="251.0" text="Inv" />
-    <TextField layoutX="202.0" layoutY="247.0" prefHeight="26.0" prefWidth="165.0" />
+    <TextField fx:id="outsourcedInvBox" layoutX="202.0" layoutY="247.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="94.0" layoutY="296.0" text="Price/Cost" />
-    <TextField layoutX="202.0" layoutY="292.0" prefHeight="26.0" prefWidth="165.0" />
+    <TextField fx:id="outsourcedPriceBox" layoutX="202.0" layoutY="292.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="95.0" layoutY="338.0" text="Max" />
-    <TextField layoutX="202.0" layoutY="334.0" prefHeight="26.0" prefWidth="165.0" />
+    <TextField fx:id="outsourcedMaxBox" layoutX="202.0" layoutY="334.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="94.0" layoutY="383.0" text="Min" />
-    <TextField layoutX="203.0" layoutY="379.0" prefHeight="26.0" prefWidth="165.0" />
+    <TextField fx:id="outsourcedMinBox" layoutX="203.0" layoutY="379.0" prefHeight="26.0" prefWidth="165.0" />
     <Label layoutX="94.0" layoutY="428.0" text="Company Name" />
-    <TextField layoutX="203.0" layoutY="422.0" prefHeight="26.0" prefWidth="165.0" />
-    <Button layoutX="300.0" layoutY="490.0" mnemonicParsing="false" text="Save" />
-    <Button layoutX="367.0" layoutY="490.0" mnemonicParsing="false" text="Cancel" />
+    <TextField fx:id="outsourcedCompanyName" layoutX="203.0" layoutY="422.0" prefHeight="26.0" prefWidth="165.0" />
+    <Button layoutX="300.0" layoutY="490.0" mnemonicParsing="false" onAction="#onClickOutsourcedSaveBtn" text="Save" />
+    <Button layoutX="367.0" layoutY="490.0" mnemonicParsing="false" onAction="#onClickOutsourcedCancelBtn" text="Cancel" />
 
 </children>
 </AnchorPane>

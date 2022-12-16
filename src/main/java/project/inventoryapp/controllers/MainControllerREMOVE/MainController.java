@@ -1,9 +1,15 @@
 package project.inventoryapp.controllers.MainControllerREMOVE;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,4 +50,33 @@ public class MainController implements Initializable {
     //check if bp meets criteria
     }
     * */
+
+
+    //Page Loader:
+    /*
+
+    Stage stage;
+    Parent scene;
+
+    public void pageLoader(ActionEvent actionEvent, String path, String elementType){
+       //Casting event source and determining where event source comes from.
+        if (elementType == "radioButton"){
+            stage = (Stage)((RadioButton)actionEvent.getSource()).getScene().getWindow();
+        }
+        else{
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        }
+
+        //Then we can reference the proper fxml document.
+        try {
+            scene = FXMLLoader.load(getClass().getResource(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+    */
 }
+

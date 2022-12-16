@@ -19,8 +19,8 @@ import java.util.ResourceBundle;
 public class InventoryController  implements Initializable{
 
     /** Reference variables of containers. */
-    Stage stage;
-    Parent scene;
+    static Stage stage;
+    static Parent scene;
     @FXML
     public TableView <Part> partsTable;
     @FXML
@@ -96,7 +96,7 @@ public class InventoryController  implements Initializable{
 
     /** The on click method belows triggers the add parts screen in the App's inventory page. */
 
-    public void pageLoader(ActionEvent actionEvent, String path, String elementType){
+    public static void pageLoader(ActionEvent actionEvent, String path, String elementType){
 
         /** Casting event source and determining where event source comes from. */
         if (elementType == "radioButton"){
@@ -108,7 +108,7 @@ public class InventoryController  implements Initializable{
 
         /** Then we can reference the proper fxml document. */
         try {
-            scene = FXMLLoader.load(getClass().getResource(path));
+            scene = FXMLLoader.load(InventoryController.class.getResource(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -119,7 +119,6 @@ public class InventoryController  implements Initializable{
 
     /** Method to add parts to parts list*/
     public void onClickAddPartBtn(ActionEvent actionEvent) {
-
        pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
 
     }
@@ -175,30 +174,78 @@ public class InventoryController  implements Initializable{
 
     public void partOnSearchHandler(ActionEvent actionEvent) {
 
+        partsTable.getSelectionModel().clearSelection();
         String keyword = partsSearchBar.getText();
         ObservableList<Part> resultsList = Inventory.lookUpPart(keyword);
 
         //remove condition of list size if it can search by id and name together
+        //If searching by id.
         if(resultsList.size() == 0){
 
             try {
+                partsTable.setItems(Inventory.getAllParts());
+                populateTable(partsIdColumn, partsNameColumn, partsPriceColumn, partsStockColumn, partsMinColumn, partsMaxColumn);
+
                 int numKeyword = Integer.parseInt(keyword);
                 Part part = Inventory.lookUpPart(numKeyword);
 
                 if (part != null) {
-                    resultsList.add(part);
+                    //resultsList.add(part);
+                    partsTable.getSelectionModel().select(Inventory.getAllParts().indexOf(part));
+                    partsTable.scrollTo(Inventory.getAllParts().indexOf(part));
                 }
+
             }
             catch(NumberFormatException e){
                 //ignore
             }
         }
+        //If searching by name.
+        else{
+            partsTable.setItems(resultsList);
+            populateTable(partsIdColumn, partsNameColumn, partsPriceColumn, partsStockColumn, partsMinColumn, partsMaxColumn);
+            partsSearchBar.setText("");
+        }
 
-        partsTable.setItems(resultsList);
-        populateTable(partsIdColumn, partsNameColumn, partsPriceColumn, partsStockColumn, partsMinColumn, partsMaxColumn);
-        partsSearchBar.setText("");
+        resultsList.isEmpty();
     }
 
     public void productOnSearchHandler(ActionEvent actionEvent) {
+
+        productsTable.getSelectionModel().clearSelection();
+        String keyword = productsSearchBar.getText();
+        System.out.println(keyword);
+        ObservableList<Product> resultsList = Inventory.lookUpProduct(keyword);
+
+        //remove condition of list size if it can search by id and name together
+        //If searching by id.
+        if(resultsList.size() == 0){
+
+            try {
+                productsTable.setItems(Inventory.getAllProducts());
+                populateTable(productsIdColumn, productsNameColumn, productsPriceColumn, productStockColumn, productMinColumn, productMaxColumn);
+
+                int numKeyword = Integer.parseInt(keyword);
+                Product product = Inventory.lookUpProduct(numKeyword);
+
+                if (product != null) {
+                    productsTable.getSelectionModel().select(Inventory.getAllProducts().indexOf(product));
+                    productsTable.scrollTo(Inventory.getAllProducts().indexOf(product));
+                }
+
+            }
+            catch(NumberFormatException e){
+                //ignore
+            }
+        }
+        //If searching by name.
+        else{
+            productsTable.setItems(resultsList);
+            populateTable(productsIdColumn, productsNameColumn, productsPriceColumn, productStockColumn, productMinColumn, productMaxColumn);
+            productsSearchBar.setText("");
+        }
+
+        resultsList.isEmpty();
+
     }
 }

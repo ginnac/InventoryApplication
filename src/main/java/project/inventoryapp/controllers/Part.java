@@ -1,9 +1,20 @@
 package project.inventoryapp.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
 /** This is the Part class.
  @author Ginna Campbell
  */
 public abstract class Part {
+
     private int id;
     private String name;
     private double price;
@@ -78,5 +89,6 @@ public abstract class Part {
     public void setMax(int max) {
         this.max = max;
     }
+
 
 }

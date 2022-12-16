@@ -14,11 +14,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import static project.inventoryapp.controllers.InventoryController.pageLoader;
 
 public class InHouseController implements Initializable {
 
-    Stage stage;
-    Parent scene;
     public ToggleGroup addPartsToggles;
     public TextField idBox;
     public TextField nameBox;
@@ -42,28 +41,9 @@ public class InHouseController implements Initializable {
         return "" + index + "";
     }
 
-    public void pageLoader(ActionEvent actionEvent, String path, String elementType){
-        /** Casting event source and determining where event source comes from. */
-        if (elementType == "radioButton"){
-            stage = (Stage)((RadioButton)actionEvent.getSource()).getScene().getWindow();
-        }
-        else{
-            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        }
-
-        /** Then we can reference the proper fxml document. */
-        try {
-            scene = FXMLLoader.load(getClass().getResource(path));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
 
     public void onSelectOutsourcedToggle(ActionEvent actionEvent) {
-        pageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml", "radioButton");
+      pageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml", "radioButton");
     }
 
     public void inHouseOnClickSaveBtn(ActionEvent actionEvent) {
