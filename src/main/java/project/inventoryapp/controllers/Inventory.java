@@ -31,29 +31,40 @@ public class Inventory{
         allProducts.add(product);
     }
 
-    public static Part lookUpPart(int PartId){
+    public static Part lookUpPart(int partId){
         //code to find a part by using partId
-      // Part valueToReturn;
-        for(int i = 0; i<allParts.size(); ++i){
-            if(allParts.get(i).getId()==PartId){
-              return allParts.get(i);
-            }
-            else{
-                return null;
-            }
 
+        for(int i = 0; i < allParts.size(); i++){
+            Part part = allParts.get(i);
+            if(part.getId() == partId){
+              return part;
+            }
         }
         return null;
     }
 
-    public Product lookUpProduct(int ProductId){
+    public static Product lookUpProduct(int productId){
         //code to return a product using productID
+        for(int i = 0; i < allProducts.size(); i++) {
+            Product product = allProducts.get(i);
+            if (product.getId() == productId) {
+                return product;
+            }
+        }
         return null;
     }
 
-    public ObservableList<Part> lookUpPart(String partName){
+    public static ObservableList<Part> lookUpPart(String partName){
         //code to return parts using part name
-        return null;
+        ObservableList<Part> partMatches = FXCollections.observableArrayList();
+
+        for(Part part: allParts){
+            if(part.getName().toLowerCase().contains(partName.toLowerCase())){
+                partMatches.add(part);
+            }
+        }
+
+        return partMatches;
     }
 
     public ObservableList<Product> lookUpProduct(String productName){

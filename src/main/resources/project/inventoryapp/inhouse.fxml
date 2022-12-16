@@ -18,18 +18,18 @@
     </Label>
     <Label layoutX="94.0" layoutY="161.0" prefHeight="17.0" prefWidth="12.0" text="ID" />
     <Label layoutX="94.0" layoutY="206.0" text="Name" />
-    <TextField editable="false" layoutX="188.0" layoutY="156.0" prefHeight="26.0" prefWidth="168.0" promptText="Auto generated - disabled" />
-    <TextField layoutX="185.0" layoutY="202.0" prefHeight="26.0" prefWidth="168.0" />
+    <TextField fx:id="idBox" editable="false" layoutX="188.0" layoutY="156.0" prefHeight="26.0" prefWidth="168.0" promptText="Auto generated - disabled" />
+    <TextField fx:id="nameBox" layoutX="185.0" layoutY="202.0" prefHeight="26.0" prefWidth="168.0" />
     <Label layoutX="94.0" layoutY="251.0" text="Inv" />
-    <TextField layoutX="186.0" layoutY="247.0" prefHeight="26.0" prefWidth="168.0" />
+    <TextField fx:id="invBox" layoutX="186.0" layoutY="247.0" prefHeight="26.0" prefWidth="168.0" />
     <Label layoutX="94.0" layoutY="296.0" text="Price/Cost" />
-    <TextField layoutX="186.0" layoutY="292.0" prefHeight="26.0" prefWidth="168.0" />
+    <TextField fx:id="priceBox" layoutX="186.0" layoutY="292.0" prefHeight="26.0" prefWidth="168.0" />
     <Label layoutX="95.0" layoutY="338.0" text="Max" />
-    <TextField layoutX="186.0" layoutY="334.0" prefHeight="26.0" prefWidth="168.0" />
+    <TextField fx:id="maxBox" layoutX="186.0" layoutY="334.0" prefHeight="26.0" prefWidth="168.0" />
       <Label layoutX="96.0" layoutY="378.0" text="Min" />
-      <TextField layoutX="186.0" layoutY="374.0" prefHeight="26.0" prefWidth="168.0" />
+      <TextField fx:id="minBox" layoutX="186.0" layoutY="374.0" prefHeight="26.0" prefWidth="168.0" />
     <Label layoutX="96.0" layoutY="418.0" text="Machine ID" />
-    <TextField layoutX="186.0" layoutY="414.0" prefHeight="26.0" prefWidth="168.0" />
+    <TextField fx:id="machineIdBox" layoutX="186.0" layoutY="414.0" prefHeight="26.0" prefWidth="168.0" />
       <Button layoutX="300.0" layoutY="479.0" mnemonicParsing="false" onAction="#inHouseOnClickSaveBtn" text="Save" />
       <Button layoutX="367.0" layoutY="479.0" mnemonicParsing="false" onAction="#InHouseOnClickCancelBtn" text="Cancel" />
 </children>

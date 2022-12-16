@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="project.inventoryapp.controllers.ProductController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.ProductController">
+   <children>
+      <TableView fx:id="allPartsTable" layoutX="500.0" layoutY="75.0" prefHeight="172.0" prefWidth="416.0">
+        <columns>
+          <TableColumn fx:id="allPartsIdCol" prefWidth="75.0" text="Part ID" />
+          <TableColumn fx:id="allPartsNameCol" prefWidth="75.0" text="Part Name" />
+            <TableColumn fx:id="allPartsInvCol" prefWidth="75.0" text="Inventory" />
+            <TableColumn fx:id="allPartsPriceCol" prefWidth="75.0" text="Price/Cost" />
+            <TableColumn fx:id="allPartsMaxCol" prefWidth="50.0" text="Max" />
+            <TableColumn fx:id="allPartsMinCol" prefWidth="75.0" text="Min" />
+        </columns>
+      </TableView>
+      <TableView fx:id="associatedPartsTable" layoutX="500.0" layoutY="314.0" prefHeight="172.0" prefWidth="416.0">
+         <columns>
+            <TableColumn fx:id="assocPartsIdCol" prefWidth="75.0" text="Part ID" />
+            <TableColumn fx:id="assocPartsNameCol" prefWidth="75.0" text="Part Name" />
+            <TableColumn fx:id="assocPartsInvCol" prefWidth="75.0" text="Inventory" />
+            <TableColumn fx:id="assocPartsPriceCol" prefWidth="75.0" text="Price/Cost" />
+            <TableColumn fx:id="assocPartsMaxCol" prefWidth="50.0" text="Max" />
+            <TableColumn fx:id="assocPartsMinCol" prefWidth="75.0" text="Min" />
+         </columns>
+      </TableView>
+      <Button fx:id="addAssocPartBtn" layoutX="756.0" layoutY="258.0" mnemonicParsing="false" onAction="#onClickAddAssocPartBtn" text="Add to Product List" />
+      <Button fx:id="removeAssocPartBtn" layoutX="748.0" layoutY="503.0" mnemonicParsing="false" onAction="#onClickRemoveAssocPartBtn" text="Remove Associated Part" />
+      <Button fx:id="saveProductBtn" layoutX="748.0" layoutY="546.0" mnemonicParsing="false" onAction="#onClickSaveProductBtn" text="Save" />
+      <Button fx:id="productCancelBtn" layoutX="842.0" layoutY="547.0" mnemonicParsing="false" onAction="#onClickProductCancelBtn" text="Cancel" />
+      <TextField layoutX="755.0" layoutY="36.0" text="Search by Part ID or Name" />
+   </children>
 </AnchorPane>

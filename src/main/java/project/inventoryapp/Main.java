@@ -33,10 +33,13 @@ public class Main extends Application {
 
         //TEST DATA - Products:
         Product product1 = new Product(1, "Unicycle" , 200.00, 10, 2, 15);
-        Product product2 = new Product(1, "Mountain Bike" , 350.00, 15, 5, 40);
+        Product product2 = new Product(2, "Mountain Bike" , 350.00, 15, 5, 40);
 
         Inventory.addProduct(product1);
         Inventory.addProduct(product2);
+
+        //TEST ASSOCIATED PART:
+        //product1.addAssociatedPart(inHousePart);
 
         launch();
     }

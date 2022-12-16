@@ -11,7 +11,9 @@ public class Product {
     private int stock;
     private int min;
     private int max;
-    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+
+    //List should not be static, is not global, it doesnt apply to each product
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
@@ -85,14 +87,16 @@ public class Product {
     }
 
     public void addAssociatedPart(Part part){
+
         associatedParts.add(part);
     }
 
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
-        return false;
+
+        return associatedParts.remove(selectedAssociatedPart);
     }
 
-    public static ObservableList<Part> getAllAssociatedParts() {
+    public  ObservableList<Part> getAllAssociatedParts() {
         //FIX ME - remove print below:
         System.out.println("getAllAssociatedParts is pulling from Product.java");
         return associatedParts;

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
@@ -15,13 +16,30 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InHouseController implements Initializable {
-    public ToggleGroup addPartsToggles;
+
     Stage stage;
     Parent scene;
+    public ToggleGroup addPartsToggles;
+    public TextField idBox;
+    public TextField nameBox;
+    public TextField invBox;
+    public TextField priceBox;
+    public TextField maxBox;
+    public TextField minBox;
+    public TextField machineIdBox;
+
+    private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /** getting index to use for add part*/
+       index = Inventory.getAllParts().size() + 1;
+       idBox.setText(toString(index));
 
+    }
+
+    private String toString(int index) {
+        return "" + index + "";
     }
 
     public void pageLoader(ActionEvent actionEvent, String path, String elementType){
@@ -49,6 +67,10 @@ public class InHouseController implements Initializable {
     }
 
     public void inHouseOnClickSaveBtn(ActionEvent actionEvent) {
+
+        InHouse inHouseObj = new InHouse(index, nameBox.getText(), Double.parseDouble(priceBox.getText()), Integer.parseInt(invBox.getText()), Integer.parseInt(minBox.getText()),Integer.parseInt(maxBox.getText()), Integer.parseInt(machineIdBox.getText()));
+        Inventory.addPart(inHouseObj);
+        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
     public void InHouseOnClickCancelBtn(ActionEvent actionEvent) {

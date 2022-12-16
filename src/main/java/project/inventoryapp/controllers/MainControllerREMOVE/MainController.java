@@ -35,4 +35,13 @@ public class MainController implements Initializable {
         alert.setContentText("Next data to render is confidential- TESTING WARNING");
         alert.showAndWait();
        */
+
+
+    //LOOP OPTIONS
+    /*
+    //enhanced loop option
+    for(BasketballPlayer bp: allPlayers){
+    //check if bp meets criteria
+    }
+    * */
 }

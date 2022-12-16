@@ -1,4 +1,5 @@
 package project.inventoryapp.controllers;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -116,6 +117,7 @@ public class InventoryController  implements Initializable{
         stage.show();
     }
 
+    /** Method to add parts to parts list*/
     public void onClickAddPartBtn(ActionEvent actionEvent) {
 
        pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
@@ -156,7 +158,10 @@ public class InventoryController  implements Initializable{
     }
 
     public void onClickAddProductBtn(ActionEvent actionEvent) {
+
         System.out.println("add product button was clicked");
+        pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
+
     }
 
     public void onClickDeleteProductBtn(ActionEvent actionEvent) {
@@ -168,4 +173,32 @@ public class InventoryController  implements Initializable{
         //System.out.println("exit button was clicked");
     }
 
+    public void partOnSearchHandler(ActionEvent actionEvent) {
+
+        String keyword = partsSearchBar.getText();
+        ObservableList<Part> resultsList = Inventory.lookUpPart(keyword);
+
+        //remove condition of list size if it can search by id and name together
+        if(resultsList.size() == 0){
+
+            try {
+                int numKeyword = Integer.parseInt(keyword);
+                Part part = Inventory.lookUpPart(numKeyword);
+
+                if (part != null) {
+                    resultsList.add(part);
+                }
+            }
+            catch(NumberFormatException e){
+                //ignore
+            }
+        }
+
+        partsTable.setItems(resultsList);
+        populateTable(partsIdColumn, partsNameColumn, partsPriceColumn, partsStockColumn, partsMinColumn, partsMaxColumn);
+        partsSearchBar.setText("");
+    }
+
+    public void productOnSearchHandler(ActionEvent actionEvent) {
+    }
 }
