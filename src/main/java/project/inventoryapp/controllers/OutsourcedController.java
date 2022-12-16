@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,21 +23,40 @@ public class OutsourcedController implements Initializable{
     public TextField outsourcedMaxBox;
     public TextField outsourcedMinBox;
     public TextField outsourcedCompanyName;
+    public Label outsourcedScreenTitle;
 
     private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        index = Inventory.getAllParts().size() + 1;
-        outsourcedIdBox.setText(toString(index));
+        if(InventoryController.getPageTitle() == "Modify Part") {
+            outsourcedScreenTitle.setText(InventoryController.getPageTitle());
+
+            //load part data in modify screen:
+            outsourcedIdBox.setText(toString(InventoryController.getSelectedPart().getId()));
+            outsourcedNameBox.setText(InventoryController.getSelectedPart().getName());
+            outsourcedInvBox.setText(toString(InventoryController.getSelectedPart().getStock()));
+            outsourcedPriceBox.setText(toString(InventoryController.getSelectedPart().getPrice()));
+            outsourcedMinBox.setText(toString(InventoryController.getSelectedPart().getMin()));
+            outsourcedMaxBox.setText(toString(InventoryController.getSelectedPart().getMax()));
+            outsourcedCompanyName.setText(InventoryController.getConditionalField());
+        }
+        else {
+            //pull in index in add screen:
+            index = Inventory.getAllParts().size() + 1;
+            outsourcedIdBox.setText(toString(index));
+        }
+
     }
 
     private String toString(int index) {
         return "" + index + "";
     }
 
-
+    private String toString(double index) {
+        return "" + index + "";
+    }
 
     public void onSelectedInHouseToggle(ActionEvent actionEvent) {
         pageLoader(actionEvent,"/project/inventoryapp/inhouse.fxml", "radioButton" );

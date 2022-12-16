@@ -23,7 +23,7 @@ public class InHouseController implements Initializable {
     public TextField maxBox;
     public TextField minBox;
     public TextField machineIdBox;
-    public Label partScreenTitle;
+    public Label inHouseScreenTitle;
 
     private int index;
 
@@ -32,7 +32,7 @@ public class InHouseController implements Initializable {
         /** getting index to use for add part*/
         //get Title
         if(InventoryController.getPageTitle() == "Modify Part") {
-            partScreenTitle.setText(InventoryController.getPageTitle());
+            inHouseScreenTitle.setText(InventoryController.getPageTitle());
 
             //load part data in modify screen:
             idBox.setText(toString(InventoryController.getSelectedPart().getId()));

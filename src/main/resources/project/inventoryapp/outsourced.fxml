@@ -11,7 +11,7 @@
             <ToggleGroup fx:id="addPartsToggles" />
         </toggleGroup></RadioButton>
     <RadioButton layoutX="279.0" layoutY="71.0" mnemonicParsing="false" selected="true" text="Outsourced" toggleGroup="$addPartsToggles" />
-    <Label layoutX="61.0" layoutY="68.0" text="Add Part">
+    <Label fx:id="outsourcedScreenTitle" layoutX="61.0" layoutY="68.0" text="Add Part">
         <font>
             <Font size="18.0" />
         </font>
