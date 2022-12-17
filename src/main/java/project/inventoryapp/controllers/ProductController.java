@@ -142,7 +142,10 @@ public class ProductController implements Initializable {
             return;
         }
         else{
-            Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
+            //FOR MODIFY ONLY
+            //Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
+            //FOR ADD ONLY
+            tempAssociatedParts.remove(part);
             newFullList.add(part);
         }
     }
@@ -155,6 +158,8 @@ public class ProductController implements Initializable {
         Inventory.addProduct(productObj);
         tempAssociatedParts.removeAll();
         pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+
+        //MODIFY
     }
 
     public void onClickProductCancelBtn(ActionEvent actionEvent) {

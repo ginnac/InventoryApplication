@@ -79,10 +79,16 @@ public class InventoryController  implements Initializable{
         return selectedPart;
     }
 
+    private static Product selectedProduct;
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
     private static String conditionalField;
     public static String getConditionalField() {
         return conditionalField;
     }
+
+
 
 
     //public int idColumn;
@@ -206,6 +212,24 @@ public class InventoryController  implements Initializable{
 
     public void onClickModifyProductBtn(ActionEvent actionEvent) {
         System.out.println("modify product button was clicked");
+        pageTitle = "Modify Product";
+
+        //grab selected part
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+
+        if (product == null){
+            return;
+        }
+        else{
+            //get selected ID
+            System.out.println(product.getId());
+        }
+
+        //Store object as static value
+        selectedProduct = product;
+
+        pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
+
     }
 
     public void onClickAddProductBtn(ActionEvent actionEvent) {
