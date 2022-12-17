@@ -2,9 +2,28 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.ProductController">
+<AnchorPane prefHeight="625.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.ProductController">
    <children>
+       <Label fx:id="productPageTitle" layoutX="61.0" layoutY="68.0" text="Add Product">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </Label>
+       <Label layoutX="94.0" layoutY="161.0" prefHeight="17.0" prefWidth="12.0" text="ID" />
+       <Label layoutX="94.0" layoutY="206.0" text="Name" />
+       <TextField fx:id="idProduct" editable="false" layoutX="188.0" layoutY="156.0" prefHeight="26.0" prefWidth="168.0" promptText="Auto generated - disabled" />
+       <TextField fx:id="nameProduct" layoutX="185.0" layoutY="202.0" prefHeight="26.0" prefWidth="168.0" />
+       <Label layoutX="94.0" layoutY="251.0" text="Inv" />
+       <TextField fx:id="invProduct" layoutX="186.0" layoutY="247.0" prefHeight="26.0" prefWidth="168.0" />
+       <Label layoutX="94.0" layoutY="296.0" text="Price/Cost" />
+       <TextField fx:id="priceProduct" layoutX="186.0" layoutY="292.0" prefHeight="26.0" prefWidth="168.0" />
+       <Label layoutX="95.0" layoutY="338.0" text="Max" />
+       <TextField fx:id="maxProduct" layoutX="186.0" layoutY="334.0" prefHeight="26.0" prefWidth="168.0" />
+       <Label layoutX="96.0" layoutY="378.0" text="Min" />
+       <TextField fx:id="minProduct" layoutX="186.0" layoutY="374.0" prefHeight="26.0" prefWidth="168.0" />
+
       <TableView fx:id="allPartsTable" layoutX="500.0" layoutY="75.0" prefHeight="172.0" prefWidth="416.0">
         <columns>
           <TableColumn fx:id="allPartsIdCol" prefWidth="75.0" text="Part ID" />

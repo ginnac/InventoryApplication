@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -18,9 +15,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static project.inventoryapp.controllers.InventoryController.pageLoader;
+
 public class ProductController implements Initializable {
+
     Stage stage;
     Parent scene;
+    public Label productPageTitle;
+    public TextField idProduct;
+    public TextField nameProduct;
+    public TextField invProduct;
+    public TextField priceProduct;
+    public TextField maxProduct;
+    public TextField minProduct;
     public TableView<Part> allPartsTable;
     public TableColumn<Part, Integer> allPartsIdCol;
     public TableColumn<Part, String> allPartsNameCol;
@@ -40,17 +47,42 @@ public class ProductController implements Initializable {
     public Button saveProductBtn;
     public Button productCancelBtn;
     public ObservableList<Part> newFullList = FXCollections.observableArrayList();
+    public ObservableList<Part> tempAssociatedParts = FXCollections.observableArrayList();
+
+    private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         newFullList.addAll(Inventory.getAllParts());
+
+        //Render when adding a Part or Modifying a Part
         allPartsTable.setItems(newFullList);
-        associatedPartsTable.setItems(Inventory.lookUpProduct(1).getAllAssociatedParts());
-
         populateTable(allPartsIdCol, allPartsNameCol, allPartsPriceCol, allPartsInvCol, allPartsMinCol, allPartsMaxCol);
-        populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
 
+        if(InventoryController.getPageTitle() == "Modify Product") {
+
+            //associated Parts will render all associated parts. should render if they are modifying a product otherwise it should be empty. MODIFY ONLY.
+            associatedPartsTable.setItems(Inventory.lookUpProduct(1).getAllAssociatedParts());
+            populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
+
+        }
+        else{
+            //ADD PRODUCT ONLY
+            index = Inventory.getAllProducts().size() + 1;
+            idProduct.setText(toString(index));
+            associatedPartsTable.setItems(tempAssociatedParts);
+            populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
+
+        }
+
+    }
+
+    private String toString(int index) {
+        return "" + index + "";
+    }
+    private String toString(double index) {
+        return "" + index + "";
     }
 
     public void populateTable(TableColumn<?, Integer> id, TableColumn<?, String> name, TableColumn<?, Double> price, TableColumn<?, Integer> stock, TableColumn<?, Integer> min, TableColumn<?, Integer> max){
@@ -94,7 +126,10 @@ public class ProductController implements Initializable {
         else{
             //Inventory.deletePart(part);
             newFullList.remove(part);
-            Inventory.lookUpProduct(1).addAssociatedPart(part);
+            //FOR ADD ONLY
+            tempAssociatedParts.add(part);
+            //FOR MODIFY ONLY
+            //Inventory.lookUpProduct(1).addAssociatedPart(part);
         }
     }
 
@@ -107,13 +142,19 @@ public class ProductController implements Initializable {
             return;
         }
         else{
-            Inventory.lookUpProduct(1).deleteAssociatedPart(part);
+            Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
             newFullList.add(part);
         }
     }
 
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
         System.out.println("Save in product screen was clicked");
+
+        //ADD PRODUCT
+        Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
+        Inventory.addProduct(productObj);
+        tempAssociatedParts.removeAll();
+        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
     public void onClickProductCancelBtn(ActionEvent actionEvent) {
