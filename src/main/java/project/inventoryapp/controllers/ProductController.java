@@ -57,13 +57,14 @@ public class ProductController implements Initializable {
         newFullList.addAll(Inventory.getAllParts());
 
         //Render when adding a Part or Modifying a Part
+        productPageTitle.setText(InventoryController.getPageTitle());
         allPartsTable.setItems(newFullList);
         populateTable(allPartsIdCol, allPartsNameCol, allPartsPriceCol, allPartsInvCol, allPartsMinCol, allPartsMaxCol);
 
         if(InventoryController.getPageTitle() == "Modify Product") {
 
             //associated Parts will render all associated parts. should render if they are modifying a product otherwise it should be empty. MODIFY ONLY.
-            associatedPartsTable.setItems(Inventory.lookUpProduct(1).getAllAssociatedParts());
+            associatedPartsTable.setItems(InventoryController.getSelectedProduct().getAllAssociatedParts());
             populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
 
         }
@@ -114,6 +115,7 @@ public class ProductController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
 
     public void onClickAddAssocPartBtn(ActionEvent actionEvent) {
         System.out.println("Add part in product screen was clicked");
