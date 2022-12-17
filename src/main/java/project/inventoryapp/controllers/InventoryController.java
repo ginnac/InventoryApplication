@@ -145,25 +145,29 @@ public class InventoryController  implements Initializable{
     public void onClickDeletePartBtn(ActionEvent actionEvent) {
         System.out.println("Delete part button was clicked");
 
-        Alert alert = new Alert (Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the selected part item?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
-            System.out.println("Ok was clicked");
+        Part part = partsTable.getSelectionModel().getSelectedItem();
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + part.getName() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
 
-            //FIX ME!!!! - Change this so it can take any id number
-            if(Inventory.lookUpPart(1) != null){
-                Inventory.deletePart(Inventory.lookUpPart(1) );
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                //FIX ME!!!! - Change this so it can take any id number
+                if (Inventory.lookUpPart(part.getId()) != null) {
+                    Inventory.deletePart(Inventory.lookUpPart(part.getId()));
+                } else {
+                    System.out.println("Part not found");
+                }
+
+                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+
+            } else {
+                System.out.println("Cancelled was clicked");
+                partsTable.getSelectionModel().clearSelection();
+                //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
             }
-            else{
-                System.out.println("Part not found");
-            }
-
-            pageLoader(actionEvent,"/project/inventoryapp/inventory.fxml", "button");
-
         }
-        else{
-            System.out.println("Cancelled was clicked");
-            pageLoader(actionEvent,"/project/inventoryapp/inventory.fxml", "button");
+         catch(Exception e){
+                //test
         }
     }
 
