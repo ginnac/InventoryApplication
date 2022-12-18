@@ -142,9 +142,8 @@ public class ProductController implements Initializable {
            return;
         }
         else{
-
-
-           newFullList.remove(part);
+            //No need to remove the item from the top list only add it tp the assoc list
+           //newFullList.remove(part);
 
             //FOR MODIFY ONLY
             if(productPageTitle.getText() == "Modify Product"){
