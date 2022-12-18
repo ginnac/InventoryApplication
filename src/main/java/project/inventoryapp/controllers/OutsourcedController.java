@@ -67,29 +67,21 @@ public class OutsourcedController implements Initializable{
         //if loading Modify Parts screen:
         if(InventoryController.getPageTitle() == "Modify Part"){
             //get id from screen
-            int idToSave = Integer.parseInt(outsourcedIdBox.getText());
-            //find object with that id in parts list. First loop
-            for(int i = 0; i<Inventory.getAllParts().size(); i++){
-                //then compare id in UI vs Part's id in Parts list. If they match update all values with the exception of Id.
-                if(idToSave == Inventory.getAllParts().get(i).getId()){
-                    Inventory.getAllParts().get(i).setName(outsourcedNameBox.getText());
-                    Inventory.getAllParts().get(i).setStock(Integer.parseInt(outsourcedInvBox.getText()));
-                    Inventory.getAllParts().get(i).setPrice(Double.parseDouble(outsourcedPriceBox.getText()));
-                    Inventory.getAllParts().get(i).setMin(Integer.parseInt(outsourcedMinBox.getText()));
-                    Inventory.getAllParts().get(i).setMax(Integer.parseInt(outsourcedMaxBox.getText()));
-                    ((Outsourced)Inventory.getAllParts().get(i)).setCompanyName(outsourcedCompanyName.getText());
-                }
-            }
-            // redirect to inventory screen
-            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
-
+            int objIndex = Inventory.getAllParts().indexOf(InventoryController.getSelectedPart());
+            //build a object with entered information
+            Part tempPart = new Outsourced(Integer.parseInt(outsourcedIdBox.getText()),outsourcedNameBox.getText(),
+                    Double.parseDouble(outsourcedPriceBox.getText()),Integer.parseInt(outsourcedInvBox.getText()),Integer.parseInt(outsourcedMinBox.getText()),
+                    Integer.parseInt(outsourcedMaxBox.getText()),outsourcedCompanyName.getText());
+            //call update part
+            Inventory.updatePart(objIndex,tempPart);
         }
         //if loading add parts screen:
         else {
             Outsourced outsourcedObj = new Outsourced(index, outsourcedNameBox.getText(), Double.parseDouble(outsourcedPriceBox.getText()), Integer.parseInt(outsourcedInvBox.getText()), Integer.parseInt(outsourcedMinBox.getText()), Integer.parseInt(outsourcedMaxBox.getText()), outsourcedCompanyName.getText());
             Inventory.addPart(outsourcedObj);
-            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
         }
+        // redirect to inventory screen
+        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
     public void onClickOutsourcedCancelBtn(ActionEvent actionEvent) {

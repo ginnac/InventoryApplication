@@ -63,10 +63,16 @@ public class ProductController implements Initializable {
 
         if(InventoryController.getPageTitle() == "Modify Product") {
 
-            //associated Parts will render all associated parts. should render if they are modifying a product otherwise it should be empty. MODIFY ONLY.
+            // MODIFY ONLY. Add values as needed
             associatedPartsTable.setItems(InventoryController.getSelectedProduct().getAllAssociatedParts());
             populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
 
+            idProduct.setText(toString(InventoryController.getSelectedProduct().getId()));
+            nameProduct.setText(InventoryController.getSelectedProduct().getName());
+            invProduct.setText(toString(InventoryController.getSelectedProduct().getStock()));
+            priceProduct.setText(toString(InventoryController.getSelectedProduct().getPrice()));
+            minProduct.setText(toString(InventoryController.getSelectedProduct().getMin()));
+            maxProduct.setText(toString(InventoryController.getSelectedProduct().getMax()));
         }
         else{
             //ADD PRODUCT ONLY
@@ -77,6 +83,13 @@ public class ProductController implements Initializable {
 
         }
 
+    }
+
+    public void cloneArray(){
+        tempAssociatedParts.removeAll();
+        for(int i = 0 ; i<InventoryController.getSelectedProduct().getAllAssociatedParts().size(); i++){
+            tempAssociatedParts.add(InventoryController.getSelectedProduct().getAllAssociatedParts().get(i));
+        }
     }
 
     private String toString(int index) {
@@ -128,10 +141,19 @@ public class ProductController implements Initializable {
         else{
             //Inventory.deletePart(part);
             newFullList.remove(part);
-            //FOR ADD ONLY
-            tempAssociatedParts.add(part);
+
             //FOR MODIFY ONLY
-            //Inventory.lookUpProduct(1).addAssociatedPart(part);
+            if(productPageTitle.getText() == "Modify Product"){
+               // tempAssociatedParts.add(part);
+                Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).addAssociatedPart(part);
+
+            }
+            else{
+                //FOR ADD ONLY
+                tempAssociatedParts.add(part);
+            }
+
+
         }
     }
 
@@ -145,9 +167,13 @@ public class ProductController implements Initializable {
         }
         else{
             //FOR MODIFY ONLY
-            //Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
-            //FOR ADD ONLY
-            tempAssociatedParts.remove(part);
+            if(productPageTitle.getText() == "Modify Product") {
+                Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
+            }
+            else {
+                //FOR ADD ONLY
+                tempAssociatedParts.remove(part);
+            }
             newFullList.add(part);
         }
     }
@@ -155,17 +181,37 @@ public class ProductController implements Initializable {
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
         System.out.println("Save in product screen was clicked");
 
-        //ADD PRODUCT
-        Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
-        Inventory.addProduct(productObj);
-        tempAssociatedParts.removeAll();
-        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
-
         //MODIFY
+        if(productPageTitle.getText() == "Modify Product"){
+            //get index of selected Part
+            int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
+            //build a object with entered information
+            Product tempProduct = new Product(Integer.parseInt(idProduct.getText()),nameProduct.getText(),Double.parseDouble(priceProduct.getText()),
+                    Integer.parseInt(invProduct.getText()),Integer.parseInt(minProduct.getText()),Integer.parseInt(maxProduct.getText()),InventoryController.getSelectedProduct().getAllAssociatedParts());
+            //call update product
+            Inventory.updateProduct(objIndex,tempProduct);
+
+        }
+        else{
+            //ADD PRODUCT
+            System.out.println("Add product");
+            Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
+            Inventory.addProduct(productObj);
+            tempAssociatedParts.removeAll();
+
+        }
+
+        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
     public void onClickProductCancelBtn(ActionEvent actionEvent) {
-        System.out.println("Cancel in product screen was clicked");
+        if(productPageTitle.getText() == "Modify Product") {
+            for (int i = 0; i < tempAssociatedParts.size(); i++) {
+                InventoryController.getSelectedProduct().deleteAssociatedPart(tempAssociatedParts.get(i));
+            }
+        }
+
         pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
+
 }

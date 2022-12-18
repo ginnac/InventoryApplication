@@ -52,6 +52,38 @@ public class MainController implements Initializable {
     * */
 
 
+    /*
+    for(int i = 0; i<Inventory.getAllParts().size(); i++){
+                //then compare id in UI vs Part's id in Parts list. If they match update all values with the exception of Id.
+                if(idToSave == Inventory.getAllParts().get(i).getId()){
+                    Inventory.getAllParts().get(i).setName(nameBox.getText());
+                    Inventory.getAllParts().get(i).setStock(Integer.parseInt(invBox.getText()));
+                    Inventory.getAllParts().get(i).setPrice(Double.parseDouble(priceBox.getText()));
+                    Inventory.getAllParts().get(i).setMin(Integer.parseInt(minBox.getText()));
+                    Inventory.getAllParts().get(i).setMax(Integer.parseInt(maxBox.getText()));
+                    ((InHouse)Inventory.getAllParts().get(i)).setMachineId(Integer.parseInt(machineIdBox.getText()));
+                }
+            }
+     */
+
+    /*
+    //find object with that id in parts list. First loop
+            for(int i = 0; i<Inventory.getAllProducts().size(); i++){
+
+                //then compare id in UI vs Part's id in Parts list. If they match update all values with the exception of Id.
+                if(idToSave == Inventory.getAllProducts().get(i).getId()){
+                    Inventory.getAllProducts().get(i).setName(nameProduct.getText());
+                    Inventory.getAllProducts().get(i).setStock(Integer.parseInt(invProduct.getText()));
+                    Inventory.getAllProducts().get(i).setPrice(Double.parseDouble(priceProduct.getText()));
+                    Inventory.getAllProducts().get(i).setMin(Integer.parseInt(minProduct.getText()));
+                    Inventory.getAllProducts().get(i).setMax(Integer.parseInt(maxProduct.getText()));
+
+
+                }
+            }
+    */
+
+
     //Page Loader:
     /*
 

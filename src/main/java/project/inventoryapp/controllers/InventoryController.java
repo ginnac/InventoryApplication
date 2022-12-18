@@ -197,7 +197,6 @@ public class InventoryController  implements Initializable{
         //Store object as static value
         selectedPart = part;
 
-
         //load proper page based on instance type
         if(part instanceof InHouse){
             conditionalField = String.valueOf(((InHouse) part).getMachineId());
@@ -227,13 +226,13 @@ public class InventoryController  implements Initializable{
 
         //Store object as static value
         selectedProduct = product;
-
         pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
 
     }
 
     public void onClickAddProductBtn(ActionEvent actionEvent) {
 
+        pageTitle = "Add Product";
         System.out.println("add product button was clicked");
         pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
 

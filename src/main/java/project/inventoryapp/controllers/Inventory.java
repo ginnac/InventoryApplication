@@ -80,12 +80,15 @@ public class Inventory{
         return productMatches;
     }
 
-    public void updatePart(int index, Part selectedPart){
+    public static void updatePart(int index, Part selectedPart){
         //update part information
+        allParts.set(index,selectedPart);
+
     }
 
-    public void updateProduct(int index, Product newProduct){
+    public static void updateProduct(int index, Product newProduct){
         //update product information
+        allProducts.set(index,newProduct);
     }
 
     public static boolean deletePart(Part selectedPart){
@@ -95,7 +98,7 @@ public class Inventory{
 
     public boolean deleteProduct(Product selectedProduct){
         //delete product from allProducts list
-        return false;
+        return allProducts.remove(selectedProduct);
     }
 
 }
