@@ -142,7 +142,9 @@ public class ProductController implements Initializable {
            return;
         }
         else{
-            newFullList.remove(part);
+
+
+           newFullList.remove(part);
 
             //FOR MODIFY ONLY
             if(productPageTitle.getText() == "Modify Product"){

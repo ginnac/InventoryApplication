@@ -144,7 +144,9 @@ public class InventoryController  implements Initializable{
     /** Method to add parts to parts list*/
     public void onClickAddPartBtn(ActionEvent actionEvent) {
         pageTitle = "Add Part";
-        pageLoader(actionEvent, "/project/inventoryapp/part.fxml", "button");
+        //It used to load parts.fxml, but since there is no need, it first loads inhouse fxml.
+        // might need to delete part.fxml
+        pageLoader(actionEvent, "/project/inventoryapp/inhouse.fxml", "button");
 
     }
 
@@ -240,6 +242,37 @@ public class InventoryController  implements Initializable{
 
     public void onClickDeleteProductBtn(ActionEvent actionEvent) {
         System.out.println("delete product button was clicked");
+
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + product.getName() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                //FIX ME!!!! - ADD VALIDATION SO IT DOESNT DELETE A PRODUCT W? ASSPCIATED PARTS
+                if (Inventory.lookUpProduct(product.getId()) != null) {
+                    if(Inventory.lookUpProduct(product.getId()).getAllAssociatedParts().size() ==0){
+                        Inventory.deleteProduct(Inventory.lookUpProduct(product.getId()));
+                    }
+                    else{
+                        System.out.println("Parts are associated with Product. Please disassociate them bf deleting Product");
+                    }
+                    
+                } else {
+                    System.out.println("Product not found");
+                }
+
+                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+
+            } else {
+                System.out.println("Cancelled was clicked");
+                partsTable.getSelectionModel().clearSelection();
+                //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+            }
+        }
+        catch(Exception e){
+            //test
+        }
     }
     public void onClickExitBtn(ActionEvent actionEvent) {
 

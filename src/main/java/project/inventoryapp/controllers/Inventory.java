@@ -96,7 +96,7 @@ public class Inventory{
         return allParts.remove(selectedPart);
     }
 
-    public boolean deleteProduct(Product selectedProduct){
+    public static boolean deleteProduct(Product selectedProduct){
         //delete product from allProducts list
         return allProducts.remove(selectedProduct);
     }
