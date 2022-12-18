@@ -21,6 +21,8 @@ public class ProductController implements Initializable {
 
     Stage stage;
     Parent scene;
+
+    public TextField partsSearchBox;
     public Label productPageTitle;
     public TextField idProduct;
     public TextField nameProduct;
@@ -64,6 +66,7 @@ public class ProductController implements Initializable {
         if(InventoryController.getPageTitle() == "Modify Product") {
 
             // MODIFY ONLY. Add values as needed
+            cloneArray();
             associatedPartsTable.setItems(InventoryController.getSelectedProduct().getAllAssociatedParts());
             populateTable(assocPartsIdCol, assocPartsNameCol, assocPartsPriceCol, assocPartsInvCol, assocPartsMinCol, assocPartsMaxCol);
 
@@ -139,12 +142,10 @@ public class ProductController implements Initializable {
            return;
         }
         else{
-            //Inventory.deletePart(part);
             newFullList.remove(part);
 
             //FOR MODIFY ONLY
             if(productPageTitle.getText() == "Modify Product"){
-               // tempAssociatedParts.add(part);
                 Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).addAssociatedPart(part);
 
             }
@@ -158,7 +159,6 @@ public class ProductController implements Initializable {
     }
 
     public void onClickRemoveAssocPartBtn(ActionEvent actionEvent) {
-        System.out.println("remove part in product screen was clicked");
 
         Part part = associatedPartsTable.getSelectionModel().getSelectedItem();
 
@@ -168,7 +168,8 @@ public class ProductController implements Initializable {
         else{
             //FOR MODIFY ONLY
             if(productPageTitle.getText() == "Modify Product") {
-                Inventory.lookUpProduct(part.getId()).deleteAssociatedPart(part);
+                Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).deleteAssociatedPart(part);
+                System.out.println("remove part in product screen was clicked");
             }
             else {
                 //FOR ADD ONLY
@@ -205,13 +206,61 @@ public class ProductController implements Initializable {
     }
 
     public void onClickProductCancelBtn(ActionEvent actionEvent) {
-        if(productPageTitle.getText() == "Modify Product") {
-            for (int i = 0; i < tempAssociatedParts.size(); i++) {
-                InventoryController.getSelectedProduct().deleteAssociatedPart(tempAssociatedParts.get(i));
-            }
+
+       if(productPageTitle.getText() == "Modify Product") {
+
+           //If not saving update the assoc. parts list to elements before the changes
+           int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
+           //build a object with entered information
+           Product tempProduct = new Product(InventoryController.getSelectedProduct().getId(),
+                   InventoryController.getSelectedProduct().getName(),
+                   InventoryController.getSelectedProduct().getPrice(),
+                   InventoryController.getSelectedProduct().getStock(),
+                   InventoryController.getSelectedProduct().getMin(),
+                   InventoryController.getSelectedProduct().getMax(),
+                   tempAssociatedParts);
+           Inventory.updateProduct(objIndex,tempProduct);
         }
 
         pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
+
+    public void onSearchPartHandler(ActionEvent actionEvent) {
+
+        allPartsTable.getSelectionModel().clearSelection();
+        String keyword = partsSearchBox.getText();
+        ObservableList<Part> resultsList = Inventory.lookUpPart(keyword);
+
+        //remove condition of list size if it can search by id and name together
+        //If searching by id.
+        if(resultsList.size() == 0){
+
+            try {
+                allPartsTable.setItems(Inventory.getAllParts());
+                populateTable(allPartsIdCol, allPartsNameCol, allPartsPriceCol, allPartsInvCol, allPartsMinCol, allPartsMaxCol);
+
+                int numKeyword = Integer.parseInt(keyword);
+                Part part = Inventory.lookUpPart(numKeyword);
+
+                if (part != null) {
+                    //resultsList.add(part);
+                    allPartsTable.getSelectionModel().select(Inventory.getAllParts().indexOf(part));
+                    allPartsTable.scrollTo(Inventory.getAllParts().indexOf(part));
+                }
+
+            }
+            catch(NumberFormatException e){
+                //ignore
+            }
+        }
+        //If searching by name.
+        else{
+            allPartsTable.setItems(resultsList);
+            populateTable(allPartsIdCol, allPartsNameCol, allPartsPriceCol, allPartsInvCol, allPartsMinCol, allPartsMaxCol);
+            partsSearchBox.setText("");
+        }
+
+        resultsList.isEmpty();
+    }
 }

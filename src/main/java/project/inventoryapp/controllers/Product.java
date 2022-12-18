@@ -98,9 +98,9 @@ public class Product {
 
     public  ObservableList<Part> getAllAssociatedParts() {
         //FIX ME - remove print below:
-        System.out.println("getAllAssociatedParts is pulling from Product.java");
         return associatedParts;
     }
+
 
 
 }
