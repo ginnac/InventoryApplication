@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static project.inventoryapp.controllers.InventoryController.pageLoader;
@@ -163,21 +164,34 @@ public class ProductController implements Initializable {
 
         Part part = associatedPartsTable.getSelectionModel().getSelectedItem();
 
-        if(part == null){
-            return;
-        }
-        else{
-            //FOR MODIFY ONLY
-            if(productPageTitle.getText() == "Modify Product") {
-                Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).deleteAssociatedPart(part);
-                System.out.println("remove part in product screen was clicked");
+            try {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove " + part.getName() + " as an associated item?");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    //FIX ME!!!! - Change this so it can take any id number
+                    if (part !=null) {
+                        //FOR MODIFY ONLY
+                        if(productPageTitle.getText() == "Modify Product") {
+                            Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).deleteAssociatedPart(part);
+                            System.out.println("remove part in product screen was clicked");
+                        }
+                        else {
+                            //FOR ADD ONLY
+                            tempAssociatedParts.remove(part);
+                        }
+                    } else {
+                        System.out.println("Part not found");
+                    }
+
+                } else {
+                    System.out.println("Cancelled was clicked");
+                    associatedPartsTable.getSelectionModel().clearSelection();
+                }
             }
-            else {
-                //FOR ADD ONLY
-                tempAssociatedParts.remove(part);
+            catch(Exception e){
+                //test
             }
-            newFullList.add(part);
-        }
     }
 
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
