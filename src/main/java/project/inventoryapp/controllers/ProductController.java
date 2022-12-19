@@ -198,33 +198,48 @@ public class ProductController implements Initializable {
     }
 
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
-        //System.out.println("Save in product screen was clicked");
+        //clear error message field if trying to save again
+        errorMessage.setText("");
         try {
-            checkForErrors(nameProduct.getText(),"string", "Name");
-            checkForErrors(invProduct.getText(),"integer", "Inv");
-            checkForErrors(priceProduct.getText(),"double", "Price/Cost");
-            checkForErrors(maxProduct.getText(),"integer", "Max");
-            checkForErrors(minProduct.getText(),"integer", "Min");
-            //MODIFY
-            if (productPageTitle.getText() == "Modify Product") {
-                //get index of selected Part
-                int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
-                //build a object with entered information
-                Product tempProduct = new Product(Integer.parseInt(idProduct.getText()), nameProduct.getText(), Double.parseDouble(priceProduct.getText()),
-                        Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), InventoryController.getSelectedProduct().getAllAssociatedParts());
-                //call update product
-                Inventory.updateProduct(objIndex, tempProduct);
+            checkForErrors(nameProduct.getText(), "string", "Name");
+            checkForErrors(invProduct.getText(), "integer", "Inv");
+            checkForErrors(priceProduct.getText(), "double", "Price/Cost");
+            checkForErrors(maxProduct.getText(), "integer", "Max");
+            checkForErrors(minProduct.getText(), "integer", "Min");
 
-            } else {
-                //ADD PRODUCT
-                System.out.println("Add product");
-                Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
-                Inventory.addProduct(productObj);
-                tempAssociatedParts.removeAll();
+            if ((Integer.parseInt(minProduct.getText()) <= Integer.parseInt(maxProduct.getText())) && (Integer.parseInt(invProduct.getText()) >= Integer.parseInt(minProduct.getText()))
+                    && (Integer.parseInt(invProduct.getText()) <= Integer.parseInt(maxProduct.getText()))) {
+                //MODIFY
+                if (productPageTitle.getText() == "Modify Product") {
+                    //get index of selected Part
+                    int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
+                    //build a object with entered information
+                    Product tempProduct = new Product(Integer.parseInt(idProduct.getText()), nameProduct.getText(), Double.parseDouble(priceProduct.getText()),
+                            Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), InventoryController.getSelectedProduct().getAllAssociatedParts());
+                    //call update product
+                    Inventory.updateProduct(objIndex, tempProduct);
 
+                } else {
+                    //ADD PRODUCT
+                    System.out.println("Add product");
+                    Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
+                    Inventory.addProduct(productObj);
+                    tempAssociatedParts.removeAll();
+                }
+
+                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
             }
-
-            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+            else{
+                String errMsg = "Please enter valid values:";
+                if(Integer.parseInt(minProduct.getText()) > Integer.parseInt(maxProduct.getText())){
+                    errMsg += "\n" + "-" + "Max must be greater or equal than Min.";
+                    errorMessage.setText(errMsg);
+                }
+                if((Integer.parseInt(minProduct.getText()) > Integer.parseInt(invProduct.getText())) || (Integer.parseInt(maxProduct.getText()) < Integer.parseInt(invProduct.getText())) ){
+                    errMsg += "\n" + "-" + "Inv must between Min and Max ";
+                    errorMessage.setText(errMsg);
+                }
+            }
         }
         catch(NumberFormatException e){
             String errMsg = "Please enter valid values:" ;
