@@ -155,8 +155,8 @@ public class InventoryController  implements Initializable{
     public void onClickDeletePartBtn(ActionEvent actionEvent) {
         System.out.println("Delete part button was clicked");
 
-        Part part = partsTable.getSelectionModel().getSelectedItem();
         try {
+            Part part = partsTable.getSelectionModel().getSelectedItem();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + part.getName() + "?");
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -171,13 +171,13 @@ public class InventoryController  implements Initializable{
                 pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
 
             } else {
-                System.out.println("Cancelled was clicked");
                 partsTable.getSelectionModel().clearSelection();
+                //System.out.println("Cancelled was clicked");
                 //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
             }
         }
          catch(Exception e){
-                //test
+             errorMessage.setText("Part not selected. Please select part.");
         }
     }
 
@@ -211,20 +211,17 @@ public class InventoryController  implements Initializable{
         System.out.println("modify product button was clicked");
         pageTitle = "Modify Product";
 
-        //grab selected part
-        Product product = productsTable.getSelectionModel().getSelectedItem();
+        try {
+            //grab selected part
+            Product product = productsTable.getSelectionModel().getSelectedItem();
 
-        if (product == null){
-            return;
+            //Store object as static value
+            selectedProduct = product;
+            pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
         }
-        else{
-            //get selected ID
-            System.out.println(product.getId());
+        catch(Exception e){
+            errorMessage.setText("Product not selected. Please select product.");
         }
-
-        //Store object as static value
-        selectedProduct = product;
-        pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
 
     }
 

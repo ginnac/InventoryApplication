@@ -138,62 +138,54 @@ public class ProductController implements Initializable {
 
 
     public void onClickAddAssocPartBtn(ActionEvent actionEvent) {
-        System.out.println("Add part in product screen was clicked");
+        //System.out.println("Add part in product screen was clicked");
+        errorMessage.setText("");
 
-        Part part = allPartsTable.getSelectionModel().getSelectedItem();
-
-        if (part == null){
-           return;
-        }
-        else{
+            Part part = allPartsTable.getSelectionModel().getSelectedItem();
             //No need to remove the item from the top list only add it tp the assoc list
-           //newFullList.remove(part);
-
-            //FOR MODIFY ONLY
-            if(productPageTitle.getText() == "Modify Product"){
-                Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).addAssociatedPart(part);
-
-            }
-            else{
+            //newFullList.remove(part);
+            if(part != null) {
+                //FOR MODIFY ONLY
+                if (productPageTitle.getText() == "Modify Product") {
+                    Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).addAssociatedPart(part);
+                }
                 //FOR ADD ONLY
-                tempAssociatedParts.add(part);
+                else {
+                    tempAssociatedParts.add(part);
+                }
             }
-
-
-        }
+            else {
+                errorMessage.setText("Part not selected. Please select part.");
+            }
     }
 
     public void onClickRemoveAssocPartBtn(ActionEvent actionEvent) {
 
-        Part part = associatedPartsTable.getSelectionModel().getSelectedItem();
+        errorMessage.setText("");
 
             try {
+                Part part = associatedPartsTable.getSelectionModel().getSelectedItem();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove " + part.getName() + " as an associated item?");
                 Optional<ButtonType> result = alert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    //FIX ME!!!! - Change this so it can take any id number
-                    if (part !=null) {
-                        //FOR MODIFY ONLY
-                        if(productPageTitle.getText() == "Modify Product") {
-                            Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).deleteAssociatedPart(part);
-                            System.out.println("remove part in product screen was clicked");
-                        }
-                        else {
-                            //FOR ADD ONLY
-                            tempAssociatedParts.remove(part);
-                        }
-                    } else {
-                        System.out.println("Part not found");
-                    }
 
-                } else {
+                    if (productPageTitle.getText() == "Modify Product") {
+                        Inventory.lookUpProduct(InventoryController.getSelectedProduct().getId()).deleteAssociatedPart(part);
+                        System.out.println("remove part in product screen was clicked");
+                    }
+                    else {
+                        //FOR ADD ONLY
+                        tempAssociatedParts.remove(part);
+                    }
+                }
+                else{
                     System.out.println("Cancelled was clicked");
                     associatedPartsTable.getSelectionModel().clearSelection();
                 }
             }
             catch(Exception e){
-                //test
+                errorMessage.setText("Part not selected. Please select part.");
             }
     }
 
