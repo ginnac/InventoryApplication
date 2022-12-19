@@ -64,32 +64,49 @@ public class OutsourcedController implements Initializable{
     }
 
     public void onClickOutsourcedSaveBtn(ActionEvent actionEvent) {
+        //clear error message field if trying to save again
+        errorMessage.setText("");
         try {
             // check that fields are not blank and that integer boxes receive integer values. Push that to error list in the part class:
-            PartController.checkForErrors(outsourcedNameBox.getText(),"string", "Name");
-            PartController.checkForErrors(outsourcedInvBox.getText(),"integer", "Inv");
-            PartController.checkForErrors(outsourcedPriceBox.getText(),"double", "Price/Cost");
-            PartController.checkForErrors(outsourcedMaxBox.getText(),"integer", "Max");
-            PartController.checkForErrors(outsourcedMinBox.getText(),"integer", "Min");
-            PartController.checkForErrors(outsourcedCompanyName.getText(),"string", "Company Name");
-            //if loading Modify Parts screen:
-            if (InventoryController.getPageTitle() == "Modify Part") {
-                //get id from screen
-                int objIndex = Inventory.getAllParts().indexOf(InventoryController.getSelectedPart());
-                //build a object with entered information
-                Part tempPart = new Outsourced(Integer.parseInt(outsourcedIdBox.getText()), outsourcedNameBox.getText(),
-                        Double.parseDouble(outsourcedPriceBox.getText()), Integer.parseInt(outsourcedInvBox.getText()), Integer.parseInt(outsourcedMinBox.getText()),
-                        Integer.parseInt(outsourcedMaxBox.getText()), outsourcedCompanyName.getText());
-                //call update part
-                Inventory.updatePart(objIndex, tempPart);
+            PartController.checkForErrors(outsourcedNameBox.getText(), "string", "Name");
+            PartController.checkForErrors(outsourcedInvBox.getText(), "integer", "Inv");
+            PartController.checkForErrors(outsourcedPriceBox.getText(), "double", "Price/Cost");
+            PartController.checkForErrors(outsourcedMaxBox.getText(), "integer", "Max");
+            PartController.checkForErrors(outsourcedMinBox.getText(), "integer", "Min");
+            PartController.checkForErrors(outsourcedCompanyName.getText(), "string", "Company Name");
+
+            if ((Integer.parseInt(outsourcedMinBox.getText()) <= Integer.parseInt(outsourcedMaxBox.getText())) && (Integer.parseInt(outsourcedInvBox.getText()) >= Integer.parseInt(outsourcedMinBox.getText()))
+                    && (Integer.parseInt(outsourcedInvBox.getText()) <= Integer.parseInt(outsourcedMaxBox.getText()))) {
+                //if loading Modify Parts screen:
+                if (InventoryController.getPageTitle() == "Modify Part") {
+                    //get id from screen
+                    int objIndex = Inventory.getAllParts().indexOf(InventoryController.getSelectedPart());
+                    //build a object with entered information
+                    Part tempPart = new Outsourced(Integer.parseInt(outsourcedIdBox.getText()), outsourcedNameBox.getText(),
+                            Double.parseDouble(outsourcedPriceBox.getText()), Integer.parseInt(outsourcedInvBox.getText()), Integer.parseInt(outsourcedMinBox.getText()),
+                            Integer.parseInt(outsourcedMaxBox.getText()), outsourcedCompanyName.getText());
+                    //call update part
+                    Inventory.updatePart(objIndex, tempPart);
+                }
+                //if loading add parts screen:
+                else {
+                    Outsourced outsourcedObj = new Outsourced(index, outsourcedNameBox.getText(), Double.parseDouble(outsourcedPriceBox.getText()), Integer.parseInt(outsourcedInvBox.getText()), Integer.parseInt(outsourcedMinBox.getText()), Integer.parseInt(outsourcedMaxBox.getText()), outsourcedCompanyName.getText());
+                    Inventory.addPart(outsourcedObj);
+                }
+                // redirect to inventory screen
+                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
             }
-            //if loading add parts screen:
-            else {
-                Outsourced outsourcedObj = new Outsourced(index, outsourcedNameBox.getText(), Double.parseDouble(outsourcedPriceBox.getText()), Integer.parseInt(outsourcedInvBox.getText()), Integer.parseInt(outsourcedMinBox.getText()), Integer.parseInt(outsourcedMaxBox.getText()), outsourcedCompanyName.getText());
-                Inventory.addPart(outsourcedObj);
+            else{
+                String errMsg = "Please enter valid values:";
+                if(Integer.parseInt(outsourcedMinBox.getText()) > Integer.parseInt(outsourcedMaxBox.getText())){
+                    errMsg += "\n" + "-" + "Max must be greater or equal than Min.";
+                    errorMessage.setText(errMsg);
+                }
+                if((Integer.parseInt(outsourcedMinBox.getText()) > Integer.parseInt(outsourcedInvBox.getText())) || (Integer.parseInt(outsourcedMaxBox.getText()) < Integer.parseInt(outsourcedInvBox.getText())) ){
+                    errMsg += "\n" + "-" + "Inv must between Min and Max ";
+                    errorMessage.setText(errMsg);
+                }
             }
-            // redirect to inventory screen
-            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
         }
         catch (NumberFormatException e){
             String errMsg = "Please enter valid values:" ;

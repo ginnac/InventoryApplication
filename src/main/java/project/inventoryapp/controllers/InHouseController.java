@@ -64,7 +64,8 @@ public class InHouseController implements Initializable {
     }
 
     public void inHouseOnClickSaveBtn(ActionEvent actionEvent) {
-
+        //clear error message field if trying to save again
+        errorMessage.setText("");
         try {
             // check that fields are not blank and that integer boxes receive integer values. Push that to error list in the part class:
             PartController.checkForErrors(nameBox.getText(),"string", "Name");
@@ -74,24 +75,38 @@ public class InHouseController implements Initializable {
             PartController.checkForErrors(minBox.getText(),"integer", "Min");
             PartController.checkForErrors(machineIdBox.getText(),"integer", "Machine ID");
 
-            //Modify Part
-            if (InventoryController.getPageTitle() == "Modify Part") {
-                //get index of selected Part
-                int objIndex = Inventory.getAllParts().indexOf(InventoryController.getSelectedPart());
-                //build a object with entered information
-                Part tempPart = new InHouse(Integer.parseInt(idBox.getText()), nameBox.getText(),
-                        Double.parseDouble(priceBox.getText()), Integer.parseInt(invBox.getText()), Integer.parseInt(minBox.getText()),
-                        Integer.parseInt(maxBox.getText()), Integer.parseInt(machineIdBox.getText()));
-                //call update part
-                Inventory.updatePart(objIndex, tempPart);
+            if((Integer.parseInt(minBox.getText()) <= Integer.parseInt(maxBox.getText())) && (Integer.parseInt(invBox.getText()) >= Integer.parseInt(minBox.getText()))
+                    && (Integer.parseInt(invBox.getText()) <= Integer.parseInt(maxBox.getText())) ) {
+                //Modify Part
+                if (InventoryController.getPageTitle() == "Modify Part") {
+                    //get index of selected Part
+                    int objIndex = Inventory.getAllParts().indexOf(InventoryController.getSelectedPart());
+                    //build a object with entered information
+                    Part tempPart = new InHouse(Integer.parseInt(idBox.getText()), nameBox.getText(),
+                            Double.parseDouble(priceBox.getText()), Integer.parseInt(invBox.getText()), Integer.parseInt(minBox.getText()),
+                            Integer.parseInt(maxBox.getText()), Integer.parseInt(machineIdBox.getText()));
+                    //call update part
+                    Inventory.updatePart(objIndex, tempPart);
+                }
+                //Add a Part
+                else {
+                    InHouse inHouseObj = new InHouse(index, nameBox.getText(), Double.parseDouble(priceBox.getText()), Integer.parseInt(invBox.getText()), Integer.parseInt(minBox.getText()), Integer.parseInt(maxBox.getText()), Integer.parseInt(machineIdBox.getText()));
+                    Inventory.addPart(inHouseObj);
+                }
+                // redirect to inventory screen
+                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
             }
-            //Add a Part
-            else {
-                InHouse inHouseObj = new InHouse(index, nameBox.getText(), Double.parseDouble(priceBox.getText()), Integer.parseInt(invBox.getText()), Integer.parseInt(minBox.getText()), Integer.parseInt(maxBox.getText()), Integer.parseInt(machineIdBox.getText()));
-                Inventory.addPart(inHouseObj);
+            else{
+                String errMsg = "Please enter valid values:";
+                if(Integer.parseInt(minBox.getText()) > Integer.parseInt(maxBox.getText())){
+                    errMsg += "\n" + "-" + "Max must be greater or equal than Min.";
+                    errorMessage.setText(errMsg);
+                }
+                if((Integer.parseInt(minBox.getText()) > Integer.parseInt(invBox.getText())) || (Integer.parseInt(maxBox.getText()) < Integer.parseInt(invBox.getText())) ){
+                    errMsg += "\n" + "-" + "Inv must between Min and Max ";
+                    errorMessage.setText(errMsg);
+                }
             }
-            // redirect to inventory screen
-            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
         }
         catch (NumberFormatException e){
             //System.out.println("Please enter valid values in the fields:");
