@@ -70,6 +70,8 @@ public class InventoryController  implements Initializable{
 
     //Values to conditionally transfer to other pages
     private static String  pageTitle;
+    public Label errorMessage;
+
     public static String getPageTitle() {
         return pageTitle;
     }
@@ -184,31 +186,25 @@ public class InventoryController  implements Initializable{
 
         System.out.println("Modify part button was clicked");
         pageTitle = "Modify Part";
+        try {
+            //grab selected part
+            Part part = partsTable.getSelectionModel().getSelectedItem();
 
-        //grab selected part
-        Part part = partsTable.getSelectionModel().getSelectedItem();
+            //Store object as static value
+            selectedPart = part;
 
-        if (part == null){
-            return;
+            //load proper page based on instance type
+            if (part instanceof InHouse) {
+                conditionalField = String.valueOf(((InHouse) part).getMachineId());
+                pageLoader(actionEvent, "/project/inventoryapp/inhouse.fxml", "button");
+            } else {
+                conditionalField = ((Outsourced) part).getCompanyName();
+                pageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml", "button");
+            }
         }
-        else{
-            //get selected ID
-            System.out.println(part.getId());
+        catch(Exception e){
+            errorMessage.setText("Part not selected. Please select part.");
         }
-
-        //Store object as static value
-        selectedPart = part;
-
-        //load proper page based on instance type
-        if(part instanceof InHouse){
-            conditionalField = String.valueOf(((InHouse) part).getMachineId());
-            pageLoader(actionEvent, "/project/inventoryapp/inhouse.fxml", "button");
-        }
-        else{
-            conditionalField = ((Outsourced)part).getCompanyName();
-            pageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml", "button");
-        }
-
     }
 
     public void onClickModifyProductBtn(ActionEvent actionEvent) {
@@ -243,37 +239,31 @@ public class InventoryController  implements Initializable{
     public void onClickDeleteProductBtn(ActionEvent actionEvent) {
         System.out.println("delete product button was clicked");
 
-        Product product = productsTable.getSelectionModel().getSelectedItem();
-        try {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + product.getName() + "?");
-            Optional<ButtonType> result = alert.showAndWait();
+            try {
+                Product product = productsTable.getSelectionModel().getSelectedItem();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + product.getName() + "?");
+                Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                //FIX ME!!!! - ADD VALIDATION SO IT DOESNT DELETE A PRODUCT W? ASSPCIATED PARTS
-                if (Inventory.lookUpProduct(product.getId()) != null) {
-                    if(Inventory.lookUpProduct(product.getId()).getAllAssociatedParts().size() ==0){
-                        Inventory.deleteProduct(Inventory.lookUpProduct(product.getId()));
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (Inventory.lookUpProduct(product.getId()) != null) {
+                        if (Inventory.lookUpProduct(product.getId()).getAllAssociatedParts().size() == 0) {
+                            Inventory.deleteProduct(Inventory.lookUpProduct(product.getId()));
+                            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+                        } else {
+                            errorMessage.setText("Part(s) is associated with the selected Product. Please disassociate it(them) before deleting the Product.");
+                        }
                     }
-                    else{
-                        System.out.println("Parts are associated with Product. Please disassociate them bf deleting Product");
-                    }
-                    
+
                 } else {
-                    System.out.println("Product not found");
+                    partsTable.getSelectionModel().clearSelection();
+                    // System.out.println("Cancelled was clicked");
+                    //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
                 }
-
-                pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
-
-            } else {
-                System.out.println("Cancelled was clicked");
-                partsTable.getSelectionModel().clearSelection();
-                //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
+            } catch (Exception e) {
+                errorMessage.setText("Product not selected. Please select product.");
             }
-        }
-        catch(Exception e){
-            //test
-        }
     }
+
     public void onClickExitBtn(ActionEvent actionEvent) {
 
         System.exit(0);
