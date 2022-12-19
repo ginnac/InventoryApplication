@@ -23,6 +23,7 @@ public class ProductController implements Initializable {
     Stage stage;
     Parent scene;
 
+    public Label errorMessage;
     public TextField partsSearchBox;
     public Label productPageTitle;
     public TextField idProduct;
@@ -51,6 +52,8 @@ public class ProductController implements Initializable {
     public Button productCancelBtn;
     public ObservableList<Part> newFullList = FXCollections.observableArrayList();
     public ObservableList<Part> tempAssociatedParts = FXCollections.observableArrayList();
+
+    private static ObservableList<String> productErrorList = FXCollections.observableArrayList();
 
     private int index;
 
@@ -195,29 +198,44 @@ public class ProductController implements Initializable {
     }
 
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
-        System.out.println("Save in product screen was clicked");
+        //System.out.println("Save in product screen was clicked");
+        try {
+            checkForErrors(nameProduct.getText(),"string", "Name");
+            checkForErrors(invProduct.getText(),"integer", "Inv");
+            checkForErrors(priceProduct.getText(),"double", "Price/Cost");
+            checkForErrors(maxProduct.getText(),"integer", "Max");
+            checkForErrors(minProduct.getText(),"integer", "Min");
+            //MODIFY
+            if (productPageTitle.getText() == "Modify Product") {
+                //get index of selected Part
+                int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
+                //build a object with entered information
+                Product tempProduct = new Product(Integer.parseInt(idProduct.getText()), nameProduct.getText(), Double.parseDouble(priceProduct.getText()),
+                        Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), InventoryController.getSelectedProduct().getAllAssociatedParts());
+                //call update product
+                Inventory.updateProduct(objIndex, tempProduct);
 
-        //MODIFY
-        if(productPageTitle.getText() == "Modify Product"){
-            //get index of selected Part
-            int objIndex = Inventory.getAllProducts().indexOf(InventoryController.getSelectedProduct());
-            //build a object with entered information
-            Product tempProduct = new Product(Integer.parseInt(idProduct.getText()),nameProduct.getText(),Double.parseDouble(priceProduct.getText()),
-                    Integer.parseInt(invProduct.getText()),Integer.parseInt(minProduct.getText()),Integer.parseInt(maxProduct.getText()),InventoryController.getSelectedProduct().getAllAssociatedParts());
-            //call update product
-            Inventory.updateProduct(objIndex,tempProduct);
+            } else {
+                //ADD PRODUCT
+                System.out.println("Add product");
+                Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
+                Inventory.addProduct(productObj);
+                tempAssociatedParts.removeAll();
 
+            }
+
+            pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
         }
-        else{
-            //ADD PRODUCT
-            System.out.println("Add product");
-            Product productObj = new Product(index, nameProduct.getText(), Double.parseDouble(priceProduct.getText()), Integer.parseInt(invProduct.getText()), Integer.parseInt(minProduct.getText()), Integer.parseInt(maxProduct.getText()), tempAssociatedParts);
-            Inventory.addProduct(productObj);
-            tempAssociatedParts.removeAll();
-
+        catch(NumberFormatException e){
+            String errMsg = "Please enter valid values:" ;
+            //Render the parts error list below
+            for (String str : getProductErrorList()){
+                //System.out.println(str);
+                errMsg += "\n" + "-" + str;
+            }
+            errorMessage.setText(errMsg);
+            emptyErrorList();
         }
-
-        pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }
 
     public void onClickProductCancelBtn(ActionEvent actionEvent) {
@@ -277,5 +295,37 @@ public class ProductController implements Initializable {
         }
 
         resultsList.isEmpty();
+    }
+
+    public static void checkForErrors(String value, String type, String field){
+
+        if(((type =="integer") || (type == "double")) && (value != "") ){
+            //check that is not null and is numerical
+            try{
+                if(type =="integer") {
+                    Integer.parseInt(value);
+                }
+                else{
+                    Double.parseDouble(value);
+                }
+            }
+            catch (NumberFormatException e){
+                productErrorList.add(field + " has to be a numerical value.");
+            }
+        }
+        //check that os not blank
+        if(value == ""){
+            productErrorList.add(field + " can not be blank.");
+        }
+
+    }
+
+
+    public static ObservableList<String> getProductErrorList() {
+        return productErrorList;
+    }
+
+    public static void emptyErrorList(){
+        productErrorList.clear();
     }
 }

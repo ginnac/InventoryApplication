@@ -1,5 +1,7 @@
 package project.inventoryapp.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +21,8 @@ public class PartController implements Initializable {
     public ToggleGroup addPartsToggles;
     Stage stage;
     Parent scene;
+
+    private static ObservableList<String> partErrorList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
@@ -44,5 +48,39 @@ public class PartController implements Initializable {
 
     public void onSelectOutsourcedPart(ActionEvent actionEvent) {
         partPageLoader(actionEvent, "/project/inventoryapp/outsourced.fxml");
+    }
+
+    //errors getter and setters
+
+    public static void checkForErrors(String value, String type, String field){
+
+        if(((type =="integer") || (type == "double")) && (value != "") ){
+            //check that is not null and is numerical
+            try{
+                if(type =="integer") {
+                    Integer.parseInt(value);
+                }
+                else{
+                    Double.parseDouble(value);
+                }
+            }
+            catch (NumberFormatException e){
+                partErrorList.add(field + " has to be a numerical value.");
+            }
+        }
+            //check that os not blank
+        if(value == ""){
+            partErrorList.add(field + " can not be blank.");
+        }
+
+    }
+
+
+    public static ObservableList<String> getPartErrorList() {
+        return partErrorList;
+    }
+
+    public static void emptyErrorList(){
+        partErrorList.clear();
     }
 }

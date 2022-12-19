@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="612.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.OutsourcedController">
+<AnchorPane prefHeight="641.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.inventoryapp.controllers.OutsourcedController">
 <children>
     <RadioButton layoutX="166.0" layoutY="71.0" mnemonicParsing="false" onAction="#onSelectedInHouseToggle" text="In-House">
         <toggleGroup>
@@ -32,6 +32,11 @@
     <TextField fx:id="outsourcedCompanyName" layoutX="203.0" layoutY="422.0" prefHeight="26.0" prefWidth="165.0" />
     <Button layoutX="300.0" layoutY="490.0" mnemonicParsing="false" onAction="#onClickOutsourcedSaveBtn" text="Save" />
     <Button layoutX="367.0" layoutY="490.0" mnemonicParsing="false" onAction="#onClickOutsourcedCancelBtn" text="Cancel" />
+      <Label fx:id="errorMessage" layoutX="65.0" layoutY="494.0" textFill="#f23a3a">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
 
 </children>
 </AnchorPane>

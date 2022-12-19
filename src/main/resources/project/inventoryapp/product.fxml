@@ -49,5 +49,10 @@
       <Button fx:id="saveProductBtn" layoutX="748.0" layoutY="546.0" mnemonicParsing="false" onAction="#onClickSaveProductBtn" text="Save" />
       <Button fx:id="productCancelBtn" layoutX="842.0" layoutY="547.0" mnemonicParsing="false" onAction="#onClickProductCancelBtn" text="Cancel" />
       <TextField fx:id="partsSearchBox" layoutX="755.0" layoutY="36.0" onAction="#onSearchPartHandler" promptText="Search by Part ID or Name" />
+      <Label fx:id="errorMessage" layoutX="102.0" layoutY="449.0" textFill="#f23a3a">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
