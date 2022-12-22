@@ -1,5 +1,4 @@
 package project.inventoryapp.controllers;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,12 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import static project.inventoryapp.controllers.InventoryController.pageLoader;
 
+/** This is the OutsourcedController class. This class handles methods for the outsourced fxml file. */
 public class OutsourcedController implements Initializable{
 
     public ToggleGroup addPartsToggles;
@@ -28,6 +27,7 @@ public class OutsourcedController implements Initializable{
 
     private int index;
 
+    /** This is the initialize method. It loads values for the inHouse view/fxml file.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -48,21 +48,30 @@ public class OutsourcedController implements Initializable{
             index = Inventory.getAllParts().size() + 1;
             outsourcedIdBox.setText(toString(index));
         }
-
     }
 
+    /** This toString method is used to cast an integer to String.
+     @param index index to cast.
+     @return index in string form. */
     private String toString(int index) {
         return "" + index + "";
     }
 
+    /** This toString method is used to cast a double to String.
+     @param index index to cast.
+     @return index in string form. */
     private String toString(double index) {
         return "" + index + "";
     }
 
+    /** This onSelectInHouse method is used to load the inHouse page.
+     @param actionEvent event to pass. */
     public void onSelectedInHouseToggle(ActionEvent actionEvent) {
         pageLoader(actionEvent,"/project/inventoryapp/inhouse.fxml", "radioButton" );
     }
 
+    /** This save method is used to save a new outsourced part or changes on a modified outsourced part.
+     @param actionEvent event to pass. */
     public void onClickOutsourcedSaveBtn(ActionEvent actionEvent) {
         //clear error message field if trying to save again
         errorMessage.setText("");
@@ -121,6 +130,9 @@ public class OutsourcedController implements Initializable{
 
     }
 
+
+    /** This cancel method is used to cancel changes within outsourced add/modify screens. It also loads the inventory page.
+     @param actionEvent event to pass. */
     public void onClickOutsourcedCancelBtn(ActionEvent actionEvent) {
         pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
     }

@@ -7,12 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
-/** This is the Part class.
- @author Ginna Campbell
- */
+/** This is the Part class. This is an abstract class that is used in the inHouse and outsourced classes. */
 public abstract class Part {
 
     private int id;

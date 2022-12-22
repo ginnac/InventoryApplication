@@ -1,5 +1,4 @@
 package project.inventoryapp.controllers;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,19 +9,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import static project.inventoryapp.controllers.InventoryController.pageLoader;
 
+/** This is the ProductController class. This class handles the product fxml file. */
 public class ProductController implements Initializable {
 
     Stage stage;
     Parent scene;
-
     public Label errorMessage;
     public TextField partsSearchBox;
     public Label productPageTitle;
@@ -57,6 +54,7 @@ public class ProductController implements Initializable {
 
     private int index;
 
+    /** This is the initialize method. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -92,6 +90,7 @@ public class ProductController implements Initializable {
 
     }
 
+    /** This is the cloneArray method. Copy's the products associated parts list to the temp associated parts list. */
     public void cloneArray(){
         tempAssociatedParts.removeAll();
         for(int i = 0 ; i<InventoryController.getSelectedProduct().getAllAssociatedParts().size(); i++){
@@ -99,13 +98,27 @@ public class ProductController implements Initializable {
         }
     }
 
+    /** This toString method is used to cast an integer to String.
+     @param index index to cast.
+     @return index in string form. */
     private String toString(int index) {
         return "" + index + "";
     }
+
+    /** This toString method is used to cast a double to String.
+     @param index index to cast.
+     @return index in string form. */
     private String toString(double index) {
         return "" + index + "";
     }
 
+    /** This is the populateTable method. It populates the tables in the Product page with the passed values.
+     @param id the id colum.
+     @param name the name column.
+     @param price the price column.
+     @param stock the stock column.
+     @param min the min column.
+     @param max the max column. */
     public void populateTable(TableColumn<?, Integer> id, TableColumn<?, String> name, TableColumn<?, Double> price, TableColumn<?, Integer> stock, TableColumn<?, Integer> min, TableColumn<?, Integer> max){
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -115,6 +128,10 @@ public class ProductController implements Initializable {
         max.setCellValueFactory(new PropertyValueFactory<>("max"));
     }
 
+    /** This is the pageLoader method. This method loads different fxml based on the parameters entered.
+     @param actionEvent the event to pass.
+     @param path the fxml path.
+     @param elementType the type of element was clicked on. */
     public void pageLoader(ActionEvent actionEvent, String path, String elementType){
 
         /** Casting event source and determining where event source comes from. */
@@ -137,6 +154,8 @@ public class ProductController implements Initializable {
     }
 
 
+    /** This is the onClickAddAssocPart method. This method adds the selected part to the associated parts list.
+     @param actionEvent the event to pass. */
     public void onClickAddAssocPartBtn(ActionEvent actionEvent) {
         //System.out.println("Add part in product screen was clicked");
         errorMessage.setText("");
@@ -159,6 +178,8 @@ public class ProductController implements Initializable {
             }
     }
 
+    /** This is the onClickRemoveAssocPart method. This method prompts the user to confirm to remove the selected part to the associated parts list.
+     @param actionEvent the event to pass. */
     public void onClickRemoveAssocPartBtn(ActionEvent actionEvent) {
 
         errorMessage.setText("");
@@ -189,6 +210,8 @@ public class ProductController implements Initializable {
             }
     }
 
+    /** This is the onClickSaveProduct method. This method saves a new product or modified product to the products list.
+     @param actionEvent the event to pass. */
     public void onClickSaveProductBtn(ActionEvent actionEvent) {
         //clear error message field if trying to save again
         errorMessage.setText("");
@@ -245,6 +268,8 @@ public class ProductController implements Initializable {
         }
     }
 
+    /** This is the onClickProductCancel method. This method undo changes to selected product's associated parts list. And cancels changes other changes to selected product.
+     @param actionEvent the event to pass. */
     public void onClickProductCancelBtn(ActionEvent actionEvent) {
 
        if(productPageTitle.getText() == "Modify Product") {
@@ -266,6 +291,8 @@ public class ProductController implements Initializable {
     }
 
 
+    /** This is the onSearchPartHandler method. This method handles parts searches in the Product screen.
+     @param actionEvent the event to pass. */
     public void onSearchPartHandler(ActionEvent actionEvent) {
 
         allPartsTable.getSelectionModel().clearSelection();
@@ -301,9 +328,13 @@ public class ProductController implements Initializable {
             partsSearchBox.setText("");
         }
 
-        resultsList.isEmpty();
     }
 
+
+    /** This is the checkForErrors method. This method handles data type exceptions for the add/modify product screens.
+     @param value the value passed.
+     @param type the type of data expected.
+     @param field the field data was entered into. */
     public static void checkForErrors(String value, String type, String field){
 
         if(((type =="integer") || (type == "double")) && (value != "") ){
@@ -327,11 +358,13 @@ public class ProductController implements Initializable {
 
     }
 
-
+    /** This is the getProductErrorList. This method gets the product's list of errors.
+     @return productErrorList. */
     public static ObservableList<String> getProductErrorList() {
         return productErrorList;
     }
 
+    /** This is the emptyErrorList. This method clears the productErrorList array. */
     public static void emptyErrorList(){
         productErrorList.clear();
     }

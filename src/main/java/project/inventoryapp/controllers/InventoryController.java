@@ -9,16 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/** This is the InventoryController class. This class handles methods for the Inventory fxml file. */
 public class InventoryController  implements Initializable{
 
-    /** Reference variables of containers. */
     static Stage stage;
     static Parent scene;
     @FXML
@@ -92,9 +90,7 @@ public class InventoryController  implements Initializable{
 
 
 
-
-    //public int idColumn;
-    /** Initializable method loads up as soon as the associated page loads up. */
+    /** This is the Initialize method. It loads up as soon as the associated page loads up. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -107,9 +103,15 @@ public class InventoryController  implements Initializable{
         productsTable.setItems(Inventory.getAllProducts());
         populateTable(productsIdColumn, productsNameColumn, productsPriceColumn, productStockColumn, productMinColumn, productMaxColumn);
 
-
     }
 
+    /** This is the populateTable method. It populates the tables in the Inventory page with the passed values.
+     @param id the id colum.
+     @param name the name column.
+     @param price the price column.
+     @param stock the stock column.
+     @param min the min column.
+     @param max the max column. */
     public void populateTable(TableColumn<?, Integer> id, TableColumn<?, String> name, TableColumn<?, Double> price, TableColumn<?, Integer> stock, TableColumn<?, Integer> min, TableColumn<?, Integer> max){
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -119,8 +121,11 @@ public class InventoryController  implements Initializable{
         max.setCellValueFactory(new PropertyValueFactory<>("max"));
     }
 
-    /** The on click method belows triggers the add parts screen in the App's inventory page. */
 
+    /** This is the pageLoader method. This method loads different fxml based on the parameters entered.
+     @param actionEvent the event to pass.
+     @param path the fxml path.
+     @param elementType the type of element was clicked on. */
     public static void pageLoader(ActionEvent actionEvent, String path, String elementType){
 
         /** Casting event source and determining where event source comes from. */
@@ -143,15 +148,16 @@ public class InventoryController  implements Initializable{
     }
 
 
-    /** Method to add parts to parts list*/
+    /** This is the onClickAddPart method. This method loads the inHouse fxml.
+     @param actionEvent the event to pass. */
     public void onClickAddPartBtn(ActionEvent actionEvent) {
         pageTitle = "Add Part";
-        //It used to load parts.fxml, but since there is no need, it first loads inhouse fxml.
-        // might need to delete part.fxml
         pageLoader(actionEvent, "/project/inventoryapp/inhouse.fxml", "button");
 
     }
 
+    /** This is the onClickDeletePart method. This method prompts a confirmation box. If users agrees, the selected part is deleted.
+     @param actionEvent the event to pass. */
     public void onClickDeletePartBtn(ActionEvent actionEvent) {
         System.out.println("Delete part button was clicked");
 
@@ -182,6 +188,8 @@ public class InventoryController  implements Initializable{
     }
 
 
+    /** This is the onClickModifyPart method. This method loads the inHouse/Outsourced part fxml.
+     @param actionEvent the event to pass. */
     public void onClickModifyPartBtn(ActionEvent actionEvent) {
 
         System.out.println("Modify part button was clicked");
@@ -207,8 +215,10 @@ public class InventoryController  implements Initializable{
         }
     }
 
+    /** This is the onClickModifyProduct method. This method loads the product fxml.
+     @param actionEvent the event to pass. */
     public void onClickModifyProductBtn(ActionEvent actionEvent) {
-        System.out.println("modify product button was clicked");
+
         pageTitle = "Modify Product";
 
         try {
@@ -225,14 +235,17 @@ public class InventoryController  implements Initializable{
 
     }
 
+    /** This is the onClickAddProduct method. This method loads the product fxml.
+     @param actionEvent the event to pass. */
     public void onClickAddProductBtn(ActionEvent actionEvent) {
 
         pageTitle = "Add Product";
-        System.out.println("add product button was clicked");
         pageLoader(actionEvent, "/project/inventoryapp/product.fxml", "button");
 
     }
 
+    /** This is the onClickDeleteProduct method. This method prompts the user to confirm if they want to delete the selected product. If the user agrees the product is deleted.
+     @param actionEvent the event to pass. */
     public void onClickDeleteProductBtn(ActionEvent actionEvent) {
         System.out.println("delete product button was clicked");
 
@@ -253,27 +266,26 @@ public class InventoryController  implements Initializable{
 
                 } else {
                     partsTable.getSelectionModel().clearSelection();
-                    // System.out.println("Cancelled was clicked");
-                    //pageLoader(actionEvent, "/project/inventoryapp/inventory.fxml", "button");
                 }
             } catch (Exception e) {
                 errorMessage.setText("Product not selected. Please select product.");
             }
     }
 
+    /** This is the onClickExit method. This method ends the program when the user clicks on the Exit button.
+     @param actionEvent the event to pass. */
     public void onClickExitBtn(ActionEvent actionEvent) {
-
         System.exit(0);
-        //System.out.println("exit button was clicked");
     }
 
+    /** This is the partOnSearch method. This method handles searches. It returns part id or name matches.
+     @param actionEvent the event to pass. */
     public void partOnSearchHandler(ActionEvent actionEvent) {
 
         partsTable.getSelectionModel().clearSelection();
         String keyword = partsSearchBar.getText();
         ObservableList<Part> resultsList = Inventory.lookUpPart(keyword);
 
-        //remove condition of list size if it can search by id and name together
         //If searching by id.
         if(resultsList.size() == 0){
 
@@ -285,11 +297,9 @@ public class InventoryController  implements Initializable{
                 Part part = Inventory.lookUpPart(numKeyword);
 
                 if (part != null) {
-                    //resultsList.add(part);
                     partsTable.getSelectionModel().select(Inventory.getAllParts().indexOf(part));
                     partsTable.scrollTo(Inventory.getAllParts().indexOf(part));
                 }
-
             }
             catch(NumberFormatException e){
                 //ignore
@@ -302,9 +312,10 @@ public class InventoryController  implements Initializable{
             partsSearchBar.setText("");
         }
 
-        resultsList.isEmpty();
     }
 
+    /** This is the productOnSearch method. This method handles searches. It returns product id or name matches.
+     @param actionEvent the event to pass. */
     public void productOnSearchHandler(ActionEvent actionEvent) {
 
         productsTable.getSelectionModel().clearSelection();
@@ -339,8 +350,6 @@ public class InventoryController  implements Initializable{
             populateTable(productsIdColumn, productsNameColumn, productsPriceColumn, productStockColumn, productMinColumn, productMaxColumn);
             productsSearchBar.setText("");
         }
-
-        resultsList.isEmpty();
 
     }
 
